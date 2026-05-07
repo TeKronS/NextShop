@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, User, Search, Menu, X, Rocket, Globe } from 'lucide-react';
+import { ShoppingCart, User, Search, Menu, X, Globe, LucideIcon, Rocket, ShoppingBag, Zap, Package } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { useCart } from '@/components/cart/cart-context';
 import { useLanguage } from '@/components/language/language-context';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { BrandConfig } from '@/lib/brand-config';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,10 +17,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+// Mapeo de iconos para permitir configuración dinámica desde brand-config
+const iconMap: Record<string, LucideIcon> = {
+  Rocket,
+  ShoppingBag,
+  Zap,
+  Package
+};
+
 export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { cartCount } = useCart();
   const { language, setLanguage, t } = useLanguage();
+  
+  const LogoIcon = iconMap[BrandConfig.logo.iconName] || Rocket;
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-border/40">
@@ -35,8 +46,8 @@ export function Header() {
             <SheetContent side="left">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
-                  <Rocket className="h-6 w-6 text-primary" />
-                  NextShop
+                  <LogoIcon className="h-6 w-6 text-primary" />
+                  {BrandConfig.name}
                 </SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-4 mt-8">
@@ -51,10 +62,10 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="bg-primary p-2 rounded-xl group-hover:rotate-12 transition-transform">
-            <Rocket className="h-6 w-6 text-white" />
+            <LogoIcon className="h-6 w-6 text-white" />
           </div>
           <span className="text-2xl font-headline font-bold text-foreground tracking-tight hidden sm:block">
-            NextShop
+            {BrandConfig.name}
           </span>
         </Link>
 

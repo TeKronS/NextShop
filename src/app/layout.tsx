@@ -3,10 +3,11 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { CartProvider } from '@/components/cart/cart-context';
 import { LanguageProvider } from '@/components/language/language-context';
+import { BrandConfig } from '@/lib/brand-config';
 
 export const metadata: Metadata = {
-  title: 'NextShop | Your Premium E-commerce Destination',
-  description: 'Shop the latest in tech and minimalist lifestyle products.',
+  title: `${BrandConfig.name} | Your Premium E-commerce Destination`,
+  description: BrandConfig.description,
 };
 
 export default function RootLayout({

@@ -1,3 +1,5 @@
+import { BrandConfig } from "./brand-config";
+
 export type Language = 'en' | 'es';
 
 export const translations = {
@@ -13,8 +15,8 @@ export const translations = {
     },
     hero: {
       badge: 'New Arrival 2025 Collection',
-      title: 'Premium Tech for Modern Living',
-      subtitle: 'Experience the perfect blend of minimalist design and high-performance technology. Hand-curated essentials for your creative workspace.',
+      title: `Premium Tech for Modern Living at ${BrandConfig.name}`,
+      subtitle: `Experience the perfect blend of minimalist design and high-performance technology. Hand-curated essentials for your creative workspace.`,
       shopNow: 'Shop Now',
       viewCategories: 'View Categories'
     },
@@ -30,7 +32,7 @@ export const translations = {
       featuredTitle: 'Featured Collections',
       featuredDesc: 'Discover our most popular products chosen by our community of innovators and creators.',
       browseAll: 'Browse All Products',
-      newsletterTitle: 'Join the NextShop Community',
+      newsletterTitle: `Join the ${BrandConfig.name} Community`,
       newsletterSubtitle: 'Be the first to know about new product launches, exclusive deals, and tech insights.',
       emailPlaceholder: 'Enter your email',
       subscribe: 'Subscribe'
@@ -82,7 +84,7 @@ export const translations = {
       placeOrder: 'Place Order',
       secureCheckout: 'Guaranteed safe & secure checkout',
       orderPlaced: 'Order Placed Successfully!',
-      orderSuccessDesc: 'Thank you for shopping with NextShop. Your order is being processed.'
+      orderSuccessDesc: `Thank you for shopping with ${BrandConfig.name}. Your order is being processed.`
     },
     orders: {
       title: 'Your Orders',
@@ -96,7 +98,7 @@ export const translations = {
       noOrdersDesc: 'When you make a purchase, it will appear here.'
     },
     footer: {
-      desc: 'Premium tech and lifestyle products curated for the modern professional. Built with reliability and elegance.',
+      desc: BrandConfig.description,
       shop: 'Shop',
       company: 'Company',
       support: 'Support',
@@ -133,7 +135,7 @@ export const translations = {
     },
     hero: {
       badge: 'Nueva Colección 2025',
-      title: 'Tecnología Premium para la Vida Moderna',
+      title: `Tecnología Premium para la Vida Moderna en ${BrandConfig.name}`,
       subtitle: 'Experimenta la mezcla perfecta de diseño minimalista y tecnología de alto rendimiento. Esenciales seleccionados para tu espacio creativo.',
       shopNow: 'Comprar Ahora',
       viewCategories: 'Ver Categorías'
@@ -150,7 +152,7 @@ export const translations = {
       featuredTitle: 'Colecciones Destacadas',
       featuredDesc: 'Descubre nuestros productos más populares elegidos por nuestra comunidad de innovadores y creadores.',
       browseAll: 'Ver todos los productos',
-      newsletterTitle: 'Únete a la Comunidad NextShop',
+      newsletterTitle: `Únete a la Comunidad ${BrandConfig.name}`,
       newsletterSubtitle: 'Sé el primero en enterarte de nuevos lanzamientos, ofertas exclusivas y novedades tecnológicas.',
       emailPlaceholder: 'Introduce tu email',
       subscribe: 'Suscribirse'
@@ -202,7 +204,7 @@ export const translations = {
       placeOrder: 'Realizar Pedido',
       secureCheckout: 'Pago garantizado seguro y protegido',
       orderPlaced: '¡Pedido realizado con éxito!',
-      orderSuccessDesc: 'Gracias por comprar en NextShop. Tu pedido está siendo procesado.'
+      orderSuccessDesc: `Gracias por comprar en ${BrandConfig.name}. Tu pedido está siendo procesado.`
     },
     orders: {
       title: 'Tus Pedidos',
@@ -216,7 +218,7 @@ export const translations = {
       noOrdersDesc: 'Cuando realices una compra, aparecerá aquí.'
     },
     footer: {
-      desc: 'Productos tecnológicos y de estilo de vida premium seleccionados para el profesional moderno. Construidos con fiabilidad y elegancia.',
+      desc: BrandConfig.description,
       shop: 'Tienda',
       company: 'Empresa',
       support: 'Soporte',

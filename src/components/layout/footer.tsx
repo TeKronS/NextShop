@@ -1,9 +1,18 @@
 import Link from 'next/link';
-import { Rocket, Twitter, Instagram, Github } from 'lucide-react';
+import { Rocket, ShoppingBag, Zap, Package, Twitter, Instagram, Github, LucideIcon } from 'lucide-react';
 import { useLanguage } from '@/components/language/language-context';
+import { BrandConfig } from '@/lib/brand-config';
+
+const iconMap: Record<string, LucideIcon> = {
+  Rocket,
+  ShoppingBag,
+  Zap,
+  Package
+};
 
 export function Footer() {
   const { t } = useLanguage();
+  const LogoIcon = iconMap[BrandConfig.logo.iconName] || Rocket;
 
   return (
     <footer className="bg-white border-t border-border/40 mt-auto py-12">
@@ -11,16 +20,27 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <Rocket className="h-6 w-6 text-primary" />
-              <span className="text-xl font-headline font-bold text-foreground">NextShop</span>
+              <LogoIcon className="h-6 w-6 text-primary" />
+              <span className="text-xl font-headline font-bold text-foreground">{BrandConfig.name}</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {t.footer.desc}
             </p>
             <div className="flex gap-4">
-              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors"><Twitter className="h-5 w-5" /></Link>
-              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors"><Instagram className="h-5 w-5" /></Link>
-              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors"><Github className="h-5 w-5" /></Link>
+              <a href={BrandConfig.socials.twitter} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                <Twitter className="h-5 w-5" />
+              </a>
+              <a href={BrandConfig.socials.instagram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a href={BrandConfig.socials.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                <Github className="h-5 w-5" />
+              </a>
+            </div>
+            <div className="pt-4 text-xs text-muted-foreground space-y-1">
+              <p>{BrandConfig.contact.address}</p>
+              <p>{BrandConfig.contact.phone}</p>
+              <p>{BrandConfig.contact.email}</p>
             </div>
           </div>
           
@@ -55,7 +75,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-border/40 mt-12 pt-8 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} NextShop. {t.footer.allRights}
+          © {new Date().getFullYear()} {BrandConfig.name}. {t.footer.allRights}
         </div>
       </div>
     </footer>
