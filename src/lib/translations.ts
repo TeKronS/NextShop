@@ -11,7 +11,8 @@ export const translations = {
       accessories: 'Accessories',
       photography: 'Photography',
       orders: 'Orders',
-      admin: 'Admin'
+      admin: 'Admin',
+      about: 'About Us'
     },
     hero: {
       badge: 'New Arrival 2025 Collection',
@@ -97,6 +98,22 @@ export const translations = {
       noOrders: 'No orders yet',
       noOrdersDesc: 'When you make a purchase, it will appear here.'
     },
+    about: {
+      title: 'Our Story',
+      subtitle: `Crafting excellence since 2025. Discover why ${BrandConfig.name} is the choice of modern professionals.`,
+      mission: 'Our Mission',
+      missionText: `At ${BrandConfig.name}, our mission is to simplify modern life through curated technology. We believe that tools should not only be functional but also aesthetically pleasing and durable.`,
+      vision: 'Our Vision',
+      visionText: 'To become the global destination for lifestyle technology that empowers creativity and productivity in every home and office.',
+      values: {
+        quality: 'Uncompromising Quality',
+        qualityText: 'Every product in our catalog undergoes rigorous testing to meet our standards.',
+        design: 'Thoughtful Design',
+        designText: 'We prioritize minimalism and functionality in every item we select.',
+        community: 'Customer Centric',
+        communityText: 'Our community is at the heart of everything we do. Your feedback shapes our future.'
+      }
+    },
     footer: {
       desc: BrandConfig.description,
       shop: 'Shop',
@@ -131,7 +148,8 @@ export const translations = {
       accessories: 'Accesorios',
       photography: 'Fotografía',
       orders: 'Pedidos',
-      admin: 'Admin'
+      admin: 'Admin',
+      about: 'Sobre Nosotros'
     },
     hero: {
       badge: 'Nueva Colección 2025',
@@ -216,6 +234,22 @@ export const translations = {
       track: 'Rastrear Envío',
       noOrders: 'Sin pedidos aún',
       noOrdersDesc: 'Cuando realices una compra, aparecerá aquí.'
+    },
+    about: {
+      title: 'Nuestra Historia',
+      subtitle: `Excelencia desde 2025. Descubre por qué ${BrandConfig.name} es la elección de los profesionales modernos.`,
+      mission: 'Nuestra Misión',
+      missionText: `En ${BrandConfig.name}, nuestra misión es simplificar la vida moderna a través de tecnología seleccionada. Creemos que las herramientas no solo deben ser funcionales, sino también estéticas y duraderas.`,
+      vision: 'Nuestra Visión',
+      visionText: 'Convertirnos en el destino global para la tecnología de estilo de vida que potencia la creatividad y productividad en cada hogar y oficina.',
+      values: {
+        quality: 'Calidad Sin Compromisos',
+        qualityText: 'Cada producto en nuestro catálogo pasa por rigurosas pruebas para cumplir con nuestros estándares.',
+        design: 'Diseño Cuidadoso',
+        designText: 'Priorizamos el minimalismo y la funcionalidad en cada artículo que seleccionamos.',
+        community: 'Centrados en el Cliente',
+        communityText: 'Nuestra comunidad está en el corazón de todo lo que hacemos. Sus comentarios dan forma a nuestro futuro.'
+      }
     },
     footer: {
       desc: BrandConfig.description,

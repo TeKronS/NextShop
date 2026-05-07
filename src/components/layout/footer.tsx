@@ -57,7 +57,7 @@ export function Footer() {
           <div>
             <h4 className="font-headline font-bold text-sm mb-4 uppercase tracking-widest">{t.footer.company}</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.aboutUs}</Link></li>
+              <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.aboutUs}</Link></li>
               <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.contact}</Link></li>
               <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.careers}</Link></li>
               <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.privacy}</Link></li>
