@@ -25,6 +25,15 @@ export const translations = {
       quality: 'Premium Quality',
       qualityDesc: 'Curated selection of high-quality gadgets.'
     },
+    home: {
+      featuredTitle: 'Featured Collections',
+      featuredDesc: 'Discover our most popular products chosen by our community of innovators and creators.',
+      browseAll: 'Browse All Products',
+      newsletterTitle: 'Join the NextShop Community',
+      newsletterSubtitle: 'Be the first to know about new product launches, exclusive deals, and tech insights.',
+      emailPlaceholder: 'Enter your email',
+      subscribe: 'Subscribe'
+    },
     catalog: {
       title: 'Product Catalog',
       results: 'Showing {count} results',
@@ -85,6 +94,21 @@ export const translations = {
       noOrders: 'No orders yet',
       noOrdersDesc: 'When you make a purchase, it will appear here.'
     },
+    footer: {
+      desc: 'Premium tech and lifestyle products curated for the modern professional. Built with reliability and elegance.',
+      shop: 'Shop',
+      company: 'Company',
+      support: 'Support',
+      aboutUs: 'About Us',
+      contact: 'Contact',
+      careers: 'Careers',
+      privacy: 'Privacy Policy',
+      shipping: 'Shipping Info',
+      returns: 'Returns',
+      faq: 'FAQ',
+      adminPortal: 'Admin Portal',
+      allRights: 'All rights reserved. Professional E-commerce Platform.'
+    },
     common: {
       addToCart: 'Add to Cart',
       addedToCart: 'Added to cart',
@@ -119,6 +143,15 @@ export const translations = {
       fastDesc: 'Procesamiento el mismo día y envío expedito.',
       quality: 'Calidad Premium',
       qualityDesc: 'Selección curada de gadgets de alta calidad.'
+    },
+    home: {
+      featuredTitle: 'Colecciones Destacadas',
+      featuredDesc: 'Descubre nuestros productos más populares elegidos por nuestra comunidad de innovadores y creadores.',
+      browseAll: 'Ver todos los productos',
+      newsletterTitle: 'Únete a la Comunidad NextShop',
+      newsletterSubtitle: 'Sé el primero en enterarte de nuevos lanzamientos, ofertas exclusivas y novedades tecnológicas.',
+      emailPlaceholder: 'Introduce tu email',
+      subscribe: 'Suscribirse'
     },
     catalog: {
       title: 'Catálogo de Productos',
@@ -179,6 +212,21 @@ export const translations = {
       track: 'Rastrear Envío',
       noOrders: 'Sin pedidos aún',
       noOrdersDesc: 'Cuando realices una compra, aparecerá aquí.'
+    },
+    footer: {
+      desc: 'Productos tecnológicos y de estilo de vida premium seleccionados para el profesional moderno. Construidos con fiabilidad y elegancia.',
+      shop: 'Tienda',
+      company: 'Empresa',
+      support: 'Soporte',
+      aboutUs: 'Sobre Nosotros',
+      contact: 'Contacto',
+      careers: 'Carreras',
+      privacy: 'Política de Privacidad',
+      shipping: 'Info de Envío',
+      returns: 'Devoluciones',
+      faq: 'Preguntas Frecuentes',
+      adminPortal: 'Portal Admin',
+      allRights: 'Todos los derechos reservados. Plataforma de E-commerce Profesional.'
     },
     common: {
       addToCart: 'Añadir al carrito',

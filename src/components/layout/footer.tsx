@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { Rocket, Twitter, Instagram, Github } from 'lucide-react';
+import { useLanguage } from '@/components/language/language-context';
 
 export function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-white border-t border-border/40 mt-auto py-12">
       <div className="container mx-auto px-4">
@@ -12,7 +15,7 @@ export function Footer() {
               <span className="text-xl font-headline font-bold text-foreground">NextShop</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Premium tech and lifestyle products curated for the modern professional. Built with reliability and elegance.
+              {t.footer.desc}
             </p>
             <div className="flex gap-4">
               <Link href="#" className="text-muted-foreground hover:text-primary transition-colors"><Twitter className="h-5 w-5" /></Link>
@@ -22,37 +25,37 @@ export function Footer() {
           </div>
           
           <div>
-            <h4 className="font-headline font-bold text-sm mb-4 uppercase tracking-widest">Shop</h4>
+            <h4 className="font-headline font-bold text-sm mb-4 uppercase tracking-widest">{t.footer.shop}</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/products" className="text-muted-foreground hover:text-primary transition-colors">All Products</Link></li>
-              <li><Link href="/products?category=Electronics" className="text-muted-foreground hover:text-primary transition-colors">Electronics</Link></li>
-              <li><Link href="/products?category=Accessories" className="text-muted-foreground hover:text-primary transition-colors">Accessories</Link></li>
+              <li><Link href="/products" className="text-muted-foreground hover:text-primary transition-colors">{t.nav.shop}</Link></li>
+              <li><Link href="/products?category=Electronics" className="text-muted-foreground hover:text-primary transition-colors">{t.nav.electronics}</Link></li>
+              <li><Link href="/products?category=Accessories" className="text-muted-foreground hover:text-primary transition-colors">{t.nav.accessories}</Link></li>
               <li><Link href="/products?category=Photography" className="text-muted-foreground hover:text-primary transition-colors">Photography</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-headline font-bold text-sm mb-4 uppercase tracking-widest">Company</h4>
+            <h4 className="font-headline font-bold text-sm mb-4 uppercase tracking-widest">{t.footer.company}</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Careers</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.aboutUs}</Link></li>
+              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.contact}</Link></li>
+              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.careers}</Link></li>
+              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.privacy}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-headline font-bold text-sm mb-4 uppercase tracking-widest">Support</h4>
+            <h4 className="font-headline font-bold text-sm mb-4 uppercase tracking-widest">{t.footer.support}</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Shipping Info</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Returns</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">FAQ</Link></li>
-              <li><Link href="/admin" className="text-muted-foreground hover:text-primary transition-colors">Admin Portal</Link></li>
+              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.shipping}</Link></li>
+              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.returns}</Link></li>
+              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.faq}</Link></li>
+              <li><Link href="/admin" className="text-muted-foreground hover:text-primary transition-colors">{t.footer.adminPortal}</Link></li>
             </ul>
           </div>
         </div>
         <div className="border-t border-border/40 mt-12 pt-8 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} NextShop. All rights reserved. Professional E-commerce Platform.
+          © {new Date().getFullYear()} NextShop. {t.footer.allRights}
         </div>
       </div>
     </footer>
