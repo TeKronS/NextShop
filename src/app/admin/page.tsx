@@ -3,7 +3,8 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Wand2, Package, Users, BarChart3, ArrowRight } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Package, Users, BarChart3, ArrowRight } from 'lucide-react';
 
 export default function AdminDashboard() {
   const stats = [
@@ -19,7 +20,7 @@ export default function AdminDashboard() {
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="space-y-2">
             <h1 className="text-4xl font-headline font-bold tracking-tight">Admin Dashboard</h1>
-            <p className="text-muted-foreground">Manage your store products, orders, and AI features.</p>
+            <p className="text-muted-foreground">Manage your store products, orders, and business metrics.</p>
           </div>
 
           {/* Quick Stats */}
@@ -41,31 +42,8 @@ export default function AdminDashboard() {
           </div>
 
           {/* Core Tools */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Card className="border-none shadow-xl rounded-3xl bg-primary text-white overflow-hidden relative">
-              <CardHeader className="p-8">
-                <CardTitle className="text-2xl font-headline font-bold flex items-center gap-3">
-                  <Wand2 className="h-6 w-6" />
-                  AI Content Engine
-                </CardTitle>
-                <CardDescription className="text-primary-foreground/70">
-                  Generate professional product descriptions using NextShop AI.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-8 pt-0 relative z-10">
-                <p className="text-sm text-primary-foreground/90 mb-8 leading-relaxed">
-                  Struggling with product copy? Our AI assistant can write engaging, SEO-friendly descriptions based on your product specs in seconds.
-                </p>
-                <Link href="/admin/generate-desc">
-                  <Button className="bg-white text-primary hover:bg-slate-100 rounded-xl px-8 h-12 font-bold w-full sm:w-auto">
-                    Open AI Assistant <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-              </CardContent>
-              <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-            </Card>
-
-            <Card className="border-none shadow-xl rounded-3xl bg-white overflow-hidden">
+          <div className="grid grid-cols-1 gap-8">
+            <Card className="border-none shadow-xl rounded-3xl bg-white overflow-hidden max-w-2xl">
               <CardHeader className="p-8">
                 <CardTitle className="text-2xl font-headline font-bold flex items-center gap-3">
                   <Package className="h-6 w-6 text-primary" />
