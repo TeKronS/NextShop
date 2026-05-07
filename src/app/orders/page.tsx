@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -32,6 +33,12 @@ const MOCK_ORDERS = [
 ];
 
 export default function OrdersPage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-[#f8fafc]">
       <Header />
@@ -58,7 +65,7 @@ export default function OrdersPage() {
                         <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Date Placed</p>
                         <div className="flex items-center gap-2 text-sm">
                           <Calendar className="h-3 w-3 text-muted-foreground" />
-                          <span>{new Date(order.date).toLocaleDateString()}</span>
+                          <span>{mounted ? new Date(order.date).toLocaleDateString() : '...'}</span>
                         </div>
                       </div>
                       <div className="space-y-1">
