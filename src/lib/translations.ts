@@ -12,7 +12,8 @@ export const translations = {
       photography: 'Photography',
       orders: 'Orders',
       admin: 'Admin',
-      about: 'About Us'
+      about: 'About Us',
+      contact: 'Contact'
     },
     hero: {
       badge: 'New Arrival 2025 Collection',
@@ -114,6 +115,25 @@ export const translations = {
         communityText: 'Our community is at the heart of everything we do. Your feedback shapes our future.'
       }
     },
+    contact: {
+      title: 'Get in Touch',
+      subtitle: "Have a question or feedback? We'd love to hear from you.",
+      infoTitle: 'Contact Information',
+      infoDesc: 'Find us at our office or reach out via phone or email.',
+      formTitle: 'Send us a Message',
+      formDesc: 'Fill out the form below and we will get back to you as soon as possible.',
+      name: 'Full Name',
+      email: 'Email Address',
+      subject: 'Subject',
+      message: 'Message',
+      send: 'Send Message',
+      success: 'Message Sent!',
+      successDesc: 'Thank you for contacting us. We will respond shortly.',
+      placeholderName: 'Enter your name',
+      placeholderEmail: 'Enter your email',
+      placeholderSubject: 'How can we help?',
+      placeholderMessage: 'Type your message here...'
+    },
     footer: {
       desc: BrandConfig.description,
       shop: 'Shop',
@@ -149,7 +169,8 @@ export const translations = {
       photography: 'Fotografía',
       orders: 'Pedidos',
       admin: 'Admin',
-      about: 'Sobre Nosotros'
+      about: 'Sobre Nosotros',
+      contact: 'Contacto'
     },
     hero: {
       badge: 'Nueva Colección 2025',
@@ -188,7 +209,7 @@ export const translations = {
     },
     cart: {
       title: 'Tu Carrito de Compras',
-      itemsCount: '{count} artículos',
+      itemsCount: 'artículos',
       empty: 'Tu carrito está vacío',
       emptyDesc: 'Parece que aún no has añadido nada a tu carrito.',
       startShopping: 'Empezar a comprar',
@@ -250,6 +271,25 @@ export const translations = {
         community: 'Centrados en el Cliente',
         communityText: 'Nuestra comunidad está en el corazón de todo lo que hacemos. Sus comentarios dan forma a nuestro futuro.'
       }
+    },
+    contact: {
+      title: 'Ponte en Contacto',
+      subtitle: "¿Tienes alguna pregunta o comentario? Nos encantaría escucharte.",
+      infoTitle: 'Información de Contacto',
+      infoDesc: 'Encuéntranos en nuestra oficina o contáctanos por teléfono o correo.',
+      formTitle: 'Envíanos un Mensaje',
+      formDesc: 'Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.',
+      name: 'Nombre Completo',
+      email: 'Correo Electrónico',
+      subject: 'Asunto',
+      message: 'Mensaje',
+      send: 'Enviar Mensaje',
+      success: '¡Mensaje Enviado!',
+      successDesc: 'Gracias por contactarnos. Responderemos a la brevedad.',
+      placeholderName: 'Introduce tu nombre',
+      placeholderEmail: 'Introduce tu correo',
+      placeholderSubject: '¿Cómo podemos ayudarte?',
+      placeholderMessage: 'Escribe tu mensaje aquí...'
     },
     footer: {
       desc: BrandConfig.description,
