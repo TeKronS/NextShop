@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { CartProvider } from '@/components/cart/cart-context';
+import { LanguageProvider } from '@/components/language/language-context';
 
 export const metadata: Metadata = {
   title: 'NextShop | Your Premium E-commerce Destination',
@@ -21,10 +22,12 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased min-h-screen">
-        <CartProvider>
-          {children}
-          <Toaster />
-        </CartProvider>
+        <LanguageProvider>
+          <CartProvider>
+            {children}
+            <Toaster />
+          </CartProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

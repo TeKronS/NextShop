@@ -1,17 +1,25 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, User, Search, Menu, X, Rocket } from 'lucide-react';
+import { ShoppingCart, User, Search, Menu, X, Rocket, Languages } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/components/cart/cart-context';
+import { useLanguage } from '@/components/language/language-context';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { cartCount } = useCart();
+  const { language, setLanguage, t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-border/40">
@@ -32,10 +40,9 @@ export function Header() {
                 </SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-4 mt-8">
-                <Link href="/" className="text-lg font-medium hover:text-primary transition-colors">Home</Link>
-                <Link href="/products" className="text-lg font-medium hover:text-primary transition-colors">Shop</Link>
-                <Link href="/orders" className="text-lg font-medium hover:text-primary transition-colors">Orders</Link>
-                <Link href="/admin" className="text-lg font-medium hover:text-primary transition-colors">Admin</Link>
+                <Link href="/" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.home}</Link>
+                <Link href="/products" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.shop}</Link>
+                <Link href="/orders" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.orders}</Link>
               </nav>
             </SheetContent>
           </Sheet>
@@ -53,16 +60,16 @@ export function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8 ml-8">
-          <Link href="/products" className="text-sm font-medium hover:text-primary transition-colors">Shop All</Link>
-          <Link href="/products?category=Electronics" className="text-sm font-medium hover:text-primary transition-colors">Electronics</Link>
-          <Link href="/products?category=Accessories" className="text-sm font-medium hover:text-primary transition-colors">Accessories</Link>
+          <Link href="/products" className="text-sm font-medium hover:text-primary transition-colors">{t.nav.shop}</Link>
+          <Link href="/products?category=Electronics" className="text-sm font-medium hover:text-primary transition-colors">{t.nav.electronics}</Link>
+          <Link href="/products?category=Accessories" className="text-sm font-medium hover:text-primary transition-colors">{t.nav.accessories}</Link>
         </nav>
 
         {/* Actions */}
         <div className="flex items-center gap-2 sm:gap-4 flex-1 justify-end">
           <div className={`hidden sm:flex items-center relative transition-all duration-300 ${isSearchOpen ? 'w-64' : 'w-10'}`}>
             <Input 
-              placeholder="Search products..." 
+              placeholder={t.catalog.search} 
               className={`pr-10 transition-opacity duration-300 ${isSearchOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
             />
             <Button 
@@ -74,6 +81,22 @@ export function Header() {
               {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
             </Button>
           </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" title="Change Language">
+                <Languages className="h-5 w-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setLanguage('en')} className={language === 'en' ? 'font-bold' : ''}>
+                English {language === 'en' && '✓'}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage('es')} className={language === 'es' ? 'font-bold' : ''}>
+                Español {language === 'es' && '✓'}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <Link href="/cart">
             <Button variant="ghost" size="icon" className="relative group">

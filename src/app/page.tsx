@@ -1,3 +1,5 @@
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Header } from '@/components/layout/header';
@@ -6,9 +8,11 @@ import { ProductCard } from '@/components/product/product-card';
 import { MOCK_PRODUCTS } from '@/lib/mock-data';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { useLanguage } from '@/components/language/language-context';
 import { ArrowRight, Star, ShieldCheck, Zap } from 'lucide-react';
 
 export default function Home() {
+  const { t } = useLanguage();
   const featuredProducts = MOCK_PRODUCTS.slice(0, 3);
   const heroImage = PlaceHolderImages.find(img => img.id === 'hero-main')?.imageUrl || '';
 
@@ -31,23 +35,23 @@ export default function Home() {
             <div className="max-w-2xl space-y-6 animate-in fade-in slide-in-from-left-8 duration-700">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 border border-accent/30 text-accent font-medium text-sm backdrop-blur">
                 <Zap className="h-4 w-4" />
-                <span>New Arrival 2025 Collection</span>
+                <span>{t.hero.badge}</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-headline font-bold leading-tight">
-                Premium Tech for <span className="text-primary">Modern Living</span>
+                {t.hero.title}
               </h1>
               <p className="text-lg text-slate-200 leading-relaxed max-w-xl">
-                Experience the perfect blend of minimalist design and high-performance technology. Hand-curated essentials for your creative workspace.
+                {t.hero.subtitle}
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
                 <Link href="/products">
                   <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg rounded-xl h-auto">
-                    Shop Now <ArrowRight className="ml-2 h-5 w-5" />
+                    {t.hero.shopNow} <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
                 <Link href="/products?category=Electronics">
                   <Button size="lg" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20 px-8 py-6 text-lg rounded-xl h-auto backdrop-blur">
-                    View Categories
+                    {t.hero.viewCategories}
                   </Button>
                 </Link>
               </div>
@@ -64,8 +68,8 @@ export default function Home() {
                   <ShieldCheck className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-headline font-bold text-lg mb-1">Secure Shopping</h3>
-                  <p className="text-sm text-muted-foreground">Verified transactions and secure payment processing for your peace of mind.</p>
+                  <h3 className="font-headline font-bold text-lg mb-1">{t.features.secure}</h3>
+                  <p className="text-sm text-muted-foreground">{t.features.secureDesc}</p>
                 </div>
               </div>
               <div className="flex gap-4 items-start">
@@ -73,8 +77,8 @@ export default function Home() {
                   <Zap className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-headline font-bold text-lg mb-1">Fast Delivery</h3>
-                  <p className="text-sm text-muted-foreground">Same-day processing and expedited shipping on all domestic orders.</p>
+                  <h3 className="font-headline font-bold text-lg mb-1">{t.features.fast}</h3>
+                  <p className="text-sm text-muted-foreground">{t.features.fastDesc}</p>
                 </div>
               </div>
               <div className="flex gap-4 items-start">
@@ -82,8 +86,8 @@ export default function Home() {
                   <Star className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-headline font-bold text-lg mb-1">Premium Quality</h3>
-                  <p className="text-sm text-muted-foreground">Curated selection of only the highest quality gadgets and lifestyle items.</p>
+                  <h3 className="font-headline font-bold text-lg mb-1">{t.features.quality}</h3>
+                  <p className="text-sm text-muted-foreground">{t.features.qualityDesc}</p>
                 </div>
               </div>
             </div>
