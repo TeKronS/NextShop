@@ -33,21 +33,67 @@ export const translations = {
       priceRange: 'Price Range',
       apply: 'Apply',
       noProducts: 'No products found',
-      clearFilters: 'Clear all filters'
+      clearFilters: 'Clear all filters',
+      sortBy: 'Sort'
     },
     cart: {
       title: 'Your Shopping Cart',
+      itemsCount: '{count} items',
       empty: 'Your cart is empty',
+      emptyDesc: "Looks like you haven't added anything to your cart yet.",
       startShopping: 'Start Shopping',
       summary: 'Order Summary',
-      checkout: 'Checkout Now'
+      subtotal: 'Subtotal',
+      shipping: 'Shipping',
+      tax: 'Estimated Tax',
+      free: 'Free',
+      total: 'Total',
+      checkout: 'Checkout Now',
+      remove: 'Remove'
+    },
+    checkout: {
+      shipping: 'Shipping',
+      payment: 'Payment',
+      confirmation: 'Confirmation',
+      shippingInfo: 'Shipping Information',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      address: 'Street Address',
+      city: 'City',
+      zip: 'ZIP / Postal Code',
+      phone: 'Phone Number',
+      continuePayment: 'Continue to Payment',
+      paymentDetails: 'Payment Details',
+      cardName: 'Cardholder Name',
+      cardNumber: 'Card Number',
+      expiry: 'Expiry Date',
+      cvc: 'CVC',
+      back: 'Back',
+      placeOrder: 'Place Order',
+      secureCheckout: 'Guaranteed safe & secure checkout',
+      orderPlaced: 'Order Placed Successfully!',
+      orderSuccessDesc: 'Thank you for shopping with NextShop. Your order is being processed.'
+    },
+    orders: {
+      title: 'Your Orders',
+      subtitle: 'Manage and track your recent purchases.',
+      orderId: 'Order ID',
+      datePlaced: 'Date Placed',
+      total: 'Total',
+      details: 'Details',
+      track: 'Track Shipment',
+      noOrders: 'No orders yet',
+      noOrdersDesc: 'When you make a purchase, it will appear here.'
     },
     common: {
       addToCart: 'Add to Cart',
+      addedToCart: 'Added to cart',
+      addedToCartDesc: '{name} has been added to your shopping cart.',
       viewDetails: 'View Details',
       loading: 'Loading...',
       copy: 'Copy',
-      copied: 'Copied!'
+      copied: 'Copied!',
+      qty: 'Qty'
     }
   },
   es: {
@@ -82,21 +128,67 @@ export const translations = {
       priceRange: 'Rango de Precios',
       apply: 'Aplicar',
       noProducts: 'No se encontraron productos',
-      clearFilters: 'Limpiar filtros'
+      clearFilters: 'Limpiar filtros',
+      sortBy: 'Ordenar'
     },
     cart: {
       title: 'Tu Carrito de Compras',
+      itemsCount: '{count} artículos',
       empty: 'Tu carrito está vacío',
+      emptyDesc: 'Parece que aún no has añadido nada a tu carrito.',
       startShopping: 'Empezar a comprar',
       summary: 'Resumen del Pedido',
-      checkout: 'Finalizar Compra'
+      subtotal: 'Subtotal',
+      shipping: 'Envío',
+      tax: 'Impuestos estimados',
+      free: 'Gratis',
+      total: 'Total',
+      checkout: 'Finalizar Compra',
+      remove: 'Eliminar'
+    },
+    checkout: {
+      shipping: 'Envío',
+      payment: 'Pago',
+      confirmation: 'Confirmación',
+      shippingInfo: 'Información de Envío',
+      firstName: 'Nombre',
+      lastName: 'Apellido',
+      address: 'Dirección',
+      city: 'Ciudad',
+      zip: 'Código Postal',
+      phone: 'Teléfono',
+      continuePayment: 'Continuar al Pago',
+      paymentDetails: 'Detalles de Pago',
+      cardName: 'Nombre en la tarjeta',
+      cardNumber: 'Número de tarjeta',
+      expiry: 'Fecha de vencimiento',
+      cvc: 'CVC',
+      back: 'Volver',
+      placeOrder: 'Realizar Pedido',
+      secureCheckout: 'Pago garantizado seguro y protegido',
+      orderPlaced: '¡Pedido realizado con éxito!',
+      orderSuccessDesc: 'Gracias por comprar en NextShop. Tu pedido está siendo procesado.'
+    },
+    orders: {
+      title: 'Tus Pedidos',
+      subtitle: 'Gestiona y rastrea tus compras recientes.',
+      orderId: 'ID del Pedido',
+      datePlaced: 'Fecha del Pedido',
+      total: 'Total',
+      details: 'Detalles',
+      track: 'Rastrear Envío',
+      noOrders: 'Sin pedidos aún',
+      noOrdersDesc: 'Cuando realices una compra, aparecerá aquí.'
     },
     common: {
       addToCart: 'Añadir al carrito',
+      addedToCart: 'Añadido al carrito',
+      addedToCartDesc: '{name} ha sido añadido a tu carrito de compras.',
       viewDetails: 'Ver Detalles',
       loading: 'Cargando...',
       copy: 'Copiar',
-      copied: '¡Copiado!'
+      copied: '¡Copiado!',
+      qty: 'Cant'
     }
   }
 };

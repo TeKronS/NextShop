@@ -7,6 +7,7 @@ import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, ArrowRight } from 'lucide-react';
 import { useCart } from '@/components/cart/cart-context';
+import { useLanguage } from '@/components/language/language-context';
 import { useToast } from '@/hooks/use-toast';
 
 interface ProductCardProps {
@@ -16,14 +17,15 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
     toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your shopping cart.`,
+      title: t.common.addedToCart,
+      description: t.common.addedToCartDesc.replace('{name}', product.name),
     });
   };
 
@@ -40,7 +42,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="absolute inset-0 bg-black/5 group-hover:bg-black/0 transition-colors" />
         <div className="absolute bottom-4 left-4 right-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
           <Button className="w-full bg-white/90 backdrop-blur text-foreground hover:bg-white flex items-center gap-2 shadow-lg">
-            View Details <ArrowRight className="h-4 w-4" />
+            {t.common.viewDetails} <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
       </Link>
@@ -68,7 +70,7 @@ export function ProductCard({ product }: ProductCardProps) {
           className="w-full bg-primary hover:bg-primary/90 text-white font-medium gap-2 group/btn"
         >
           <ShoppingCart className="h-4 w-4 group-hover/btn:animate-bounce" />
-          Add to Cart
+          {t.common.addToCart}
         </Button>
       </CardFooter>
     </Card>

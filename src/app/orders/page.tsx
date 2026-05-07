@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useLanguage } from '@/components/language/language-context';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Package, ChevronRight, Calendar, ShoppingBag, ArrowRight } from 'lucide-react';
@@ -34,6 +35,7 @@ const MOCK_ORDERS = [
 
 export default function OrdersPage() {
   const [mounted, setMounted] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     setMounted(true);
@@ -46,8 +48,8 @@ export default function OrdersPage() {
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
             <div className="space-y-1">
-              <h1 className="text-4xl font-headline font-bold tracking-tight">Your Orders</h1>
-              <p className="text-muted-foreground">Manage and track your recent purchases.</p>
+              <h1 className="text-4xl font-headline font-bold tracking-tight">{t.orders.title}</h1>
+              <p className="text-muted-foreground">{t.orders.subtitle}</p>
             </div>
           </div>
 
@@ -58,18 +60,18 @@ export default function OrdersPage() {
                   <div className="bg-slate-50 p-6 flex flex-wrap justify-between items-center gap-4 border-b">
                     <div className="flex gap-6">
                       <div className="space-y-1">
-                        <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Order ID</p>
+                        <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">{t.orders.orderId}</p>
                         <p className="font-mono text-sm font-bold">{order.id}</p>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Date Placed</p>
+                        <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">{t.orders.datePlaced}</p>
                         <div className="flex items-center gap-2 text-sm">
                           <Calendar className="h-3 w-3 text-muted-foreground" />
                           <span>{mounted ? new Date(order.date).toLocaleDateString() : '...'}</span>
                         </div>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">Total</p>
+                        <p className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground">{t.orders.total}</p>
                         <p className="text-sm font-bold text-primary">${order.total.toFixed(2)}</p>
                       </div>
                     </div>
@@ -82,7 +84,7 @@ export default function OrdersPage() {
                         {order.status}
                       </Badge>
                       <Button variant="ghost" size="sm" className="group-hover:translate-x-1 transition-transform">
-                        Details <ChevronRight className="h-4 w-4 ml-1" />
+                        {t.orders.details} <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </div>
                   </div>
@@ -93,14 +95,14 @@ export default function OrdersPage() {
                       </div>
                       <div className="flex-1 space-y-1">
                         <p className="font-headline font-bold">
-                          {order.items.length} item{order.items.length > 1 ? 's' : ''}
+                          {order.items.length} {t.common.qty}
                         </p>
                         <p className="text-sm text-muted-foreground truncate max-w-md">
                           {order.items.map(item => item.name).join(', ')}
                         </p>
                       </div>
                       <div className="hidden sm:block">
-                        <Button variant="outline" className="rounded-xl">Track Shipment</Button>
+                        <Button variant="outline" className="rounded-xl">{t.orders.track}</Button>
                       </div>
                     </div>
                   </CardContent>
@@ -112,11 +114,11 @@ export default function OrdersPage() {
                   <ShoppingBag className="h-10 w-10 text-slate-400" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-headline font-bold">No orders yet</h3>
-                  <p className="text-muted-foreground">When you make a purchase, it will appear here.</p>
+                  <h3 className="text-2xl font-headline font-bold">{t.orders.noOrders}</h3>
+                  <p className="text-muted-foreground">{t.orders.noOrdersDesc}</p>
                 </div>
                 <Link href="/products">
-                  <Button className="bg-primary rounded-xl px-8 h-12">Start Shopping <ArrowRight className="ml-2 h-4 w-4" /></Button>
+                  <Button className="bg-primary rounded-xl px-8 h-12">{t.cart.startShopping} <ArrowRight className="ml-2 h-4 w-4" /></Button>
                 </Link>
               </div>
             )}

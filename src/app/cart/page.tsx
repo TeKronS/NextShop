@@ -5,12 +5,14 @@ import Image from 'next/image';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { useCart } from '@/components/cart/cart-context';
+import { useLanguage } from '@/components/language/language-context';
 import { Button } from '@/components/ui/button';
 import { Trash2, Plus, Minus, ArrowRight, ShoppingBag } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, cartTotal, cartCount } = useCart();
+  const { t } = useLanguage();
 
   if (cart.length === 0) {
     return (
@@ -22,12 +24,12 @@ export default function CartPage() {
               <ShoppingBag className="h-10 w-10 text-muted-foreground" />
             </div>
             <div className="space-y-2">
-              <h1 className="text-2xl font-headline font-bold">Your cart is empty</h1>
-              <p className="text-muted-foreground">Looks like you haven't added anything to your cart yet.</p>
+              <h1 className="text-2xl font-headline font-bold">{t.cart.empty}</h1>
+              <p className="text-muted-foreground">{t.cart.emptyDesc}</p>
             </div>
             <Link href="/products" className="block">
               <Button className="w-full bg-primary py-6 text-lg rounded-xl h-auto">
-                Start Shopping
+                {t.cart.startShopping}
               </Button>
             </Link>
           </div>
@@ -41,7 +43,9 @@ export default function CartPage() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1 container mx-auto px-4 py-12">
-        <h1 className="text-3xl font-headline font-bold mb-8">Your Shopping Cart ({cartCount} items)</h1>
+        <h1 className="text-3xl font-headline font-bold mb-8">
+          {t.cart.title} ({t.cart.itemsCount.replace('{count}', cartCount.toString())})
+        </h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Cart Items List */}
@@ -91,13 +95,13 @@ export default function CartPage() {
                           onClick={() => removeFromCart(item.id)}
                         >
                           <Trash2 className="h-4 w-4 mr-2" />
-                          Remove
+                          {t.cart.remove}
                         </Button>
                       </div>
                     </div>
                     <div className="text-right flex-shrink-0">
                       <p className="font-headline font-bold text-lg">${(item.price * item.quantity).toFixed(2)}</p>
-                      <p className="text-xs text-muted-foreground">${item.price.toFixed(2)} each</p>
+                      <p className="text-xs text-muted-foreground">${item.price.toFixed(2)} {t.common.qty}</p>
                     </div>
                   </div>
                   {idx < cart.length - 1 && <Separator />}
@@ -109,65 +113,36 @@ export default function CartPage() {
           {/* Order Summary */}
           <div className="space-y-6">
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-border/40 space-y-6">
-              <h2 className="text-xl font-headline font-bold">Order Summary</h2>
+              <h2 className="text-xl font-headline font-bold">{t.cart.summary}</h2>
               <div className="space-y-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Subtotal</span>
+                  <span className="text-muted-foreground">{t.cart.subtotal}</span>
                   <span className="font-medium">${cartTotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Shipping</span>
-                  <span className="text-green-600 font-medium">Free</span>
+                  <span className="text-muted-foreground">{t.cart.shipping}</span>
+                  <span className="text-green-600 font-medium">{t.cart.free}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Estimated Tax</span>
+                  <span className="text-muted-foreground">{t.cart.tax}</span>
                   <span className="font-medium">$0.00</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between text-lg font-headline font-bold">
-                  <span>Total</span>
+                  <span>{t.cart.total}</span>
                   <span className="text-primary">${cartTotal.toFixed(2)}</span>
                 </div>
               </div>
               <Link href="/checkout" className="block">
                 <Button className="w-full bg-primary hover:bg-primary/90 py-6 text-lg rounded-xl h-auto gap-2">
-                  Checkout Now <ArrowRight className="h-5 w-5" />
+                  {t.cart.checkout} <ArrowRight className="h-5 w-5" />
                 </Button>
               </Link>
-            </div>
-            
-            <div className="bg-slate-50 p-6 rounded-2xl border border-dashed border-muted flex gap-4 items-center">
-              <div className="bg-white p-2 rounded-lg shadow-sm">
-                <ShieldCheck className="h-6 w-6 text-primary" />
-              </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Your data is protected by industry-standard encryption. Shop with confidence.
-              </p>
             </div>
           </div>
         </div>
       </main>
       <Footer />
     </div>
-  );
-}
-
-function ShieldCheck(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z" />
-      <path d="m9 12 2 2 4-4" />
-    </svg>
   );
 }

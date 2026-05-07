@@ -10,12 +10,14 @@ import { Button } from '@/components/ui/button';
 import { Filter, SlidersHorizontal, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useState, useMemo } from 'react';
+import { useLanguage } from '@/components/language/language-context';
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category');
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState(initialCategory || 'All');
+  const { t } = useLanguage();
 
   const categories = ['All', ...Array.from(new Set(MOCK_PRODUCTS.map(p => p.category)))];
 
@@ -34,15 +36,15 @@ export default function ProductsPage() {
       <main className="flex-1 container mx-auto px-4 py-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
           <div className="space-y-1">
-            <h1 className="text-4xl font-headline font-bold tracking-tight">Product Catalog</h1>
-            <p className="text-muted-foreground">Showing {filteredProducts.length} results</p>
+            <h1 className="text-4xl font-headline font-bold tracking-tight">{t.catalog.title}</h1>
+            <p className="text-muted-foreground">{t.catalog.results.replace('{count}', filteredProducts.length.toString())}</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <div className="relative w-full sm:w-64">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input 
-                placeholder="Search catalog..." 
+                placeholder={t.catalog.search} 
                 className="pl-10 rounded-xl"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -50,7 +52,7 @@ export default function ProductsPage() {
             </div>
             <Button variant="outline" className="rounded-xl flex items-center gap-2">
               <SlidersHorizontal className="h-4 w-4" />
-              Sort
+              {t.catalog.sortBy}
             </Button>
           </div>
         </div>
@@ -61,7 +63,7 @@ export default function ProductsPage() {
             <div>
               <h3 className="font-headline font-bold mb-4 flex items-center gap-2">
                 <Filter className="h-4 w-4" />
-                Categories
+                {t.catalog.categories}
               </h3>
               <div className="flex flex-col gap-1">
                 {categories.map(cat => (
@@ -81,13 +83,13 @@ export default function ProductsPage() {
             </div>
 
             <div>
-              <h3 className="font-headline font-bold mb-4">Price Range</h3>
+              <h3 className="font-headline font-bold mb-4">{t.catalog.priceRange}</h3>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-2">
                   <Input type="number" placeholder="Min" className="rounded-lg h-9" />
                   <Input type="number" placeholder="Max" className="rounded-lg h-9" />
                 </div>
-                <Button className="w-full h-9 rounded-lg" variant="secondary">Apply</Button>
+                <Button className="w-full h-9 rounded-lg" variant="secondary">{t.catalog.apply}</Button>
               </div>
             </div>
           </aside>
@@ -119,12 +121,12 @@ export default function ProductsPage() {
                 <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search className="h-8 w-8 text-muted-foreground" />
                 </div>
-                <h3 className="text-xl font-headline font-bold">No products found</h3>
+                <h3 className="text-xl font-headline font-bold">{t.catalog.noProducts}</h3>
                 <p className="text-muted-foreground max-w-xs mx-auto">
                   Try adjusting your search or category filter to find what you're looking for.
                 </p>
                 <Button variant="outline" onClick={() => {setSearchTerm(''); setActiveCategory('All');}}>
-                  Clear all filters
+                  {t.catalog.clearFilters}
                 </Button>
               </div>
             )}
