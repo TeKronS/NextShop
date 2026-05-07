@@ -30,7 +30,7 @@ export function Footer() {
               <li><Link href="/products" className="text-muted-foreground hover:text-primary transition-colors">{t.nav.shop}</Link></li>
               <li><Link href="/products?category=Electronics" className="text-muted-foreground hover:text-primary transition-colors">{t.nav.electronics}</Link></li>
               <li><Link href="/products?category=Accessories" className="text-muted-foreground hover:text-primary transition-colors">{t.nav.accessories}</Link></li>
-              <li><Link href="/products?category=Photography" className="text-muted-foreground hover:text-primary transition-colors">Photography</Link></li>
+              <li><Link href="/products?category=Photography" className="text-muted-foreground hover:text-primary transition-colors">{t.nav.photography}</Link></li>
             </ul>
           </div>
 

@@ -84,8 +84,9 @@ export function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" title="Change Language">
-                <Globe className="h-5 w-5" />
+              <Button variant="ghost" size="sm" className="flex items-center gap-1 font-bold h-10 px-2" title="Change Language">
+                <Globe className="h-4 w-4" />
+                <span className="text-xs uppercase">{language}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

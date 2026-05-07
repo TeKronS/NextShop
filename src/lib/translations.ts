@@ -7,6 +7,7 @@ export const translations = {
       shop: 'Shop All',
       electronics: 'Electronics',
       accessories: 'Accessories',
+      photography: 'Photography',
       orders: 'Orders',
       admin: 'Admin'
     },
@@ -126,6 +127,7 @@ export const translations = {
       shop: 'Tienda',
       electronics: 'Electrónica',
       accessories: 'Accesorios',
+      photography: 'Fotografía',
       orders: 'Pedidos',
       admin: 'Admin'
     },
