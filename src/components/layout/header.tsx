@@ -1,0 +1,98 @@
+"use client";
+
+import Link from 'next/link';
+import { ShoppingCart, User, Search, Menu, X, Rocket } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useCart } from '@/components/cart/cart-context';
+import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+
+export function Header() {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { cartCount } = useCart();
+
+  return (
+    <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-border/40">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        {/* Mobile Menu */}
+        <div className="md:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <SheetHeader>
+                <SheetTitle className="flex items-center gap-2">
+                  <Rocket className="h-6 w-6 text-primary" />
+                  NextShop
+                </SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col gap-4 mt-8">
+                <Link href="/" className="text-lg font-medium hover:text-primary transition-colors">Home</Link>
+                <Link href="/products" className="text-lg font-medium hover:text-primary transition-colors">Shop</Link>
+                <Link href="/orders" className="text-lg font-medium hover:text-primary transition-colors">Orders</Link>
+                <Link href="/admin" className="text-lg font-medium hover:text-primary transition-colors">Admin</Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
+
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="bg-primary p-2 rounded-xl group-hover:rotate-12 transition-transform">
+            <Rocket className="h-6 w-6 text-white" />
+          </div>
+          <span className="text-2xl font-headline font-bold text-foreground tracking-tight hidden sm:block">
+            NextShop
+          </span>
+        </Link>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8 ml-8">
+          <Link href="/products" className="text-sm font-medium hover:text-primary transition-colors">Shop All</Link>
+          <Link href="/products?category=Electronics" className="text-sm font-medium hover:text-primary transition-colors">Electronics</Link>
+          <Link href="/products?category=Accessories" className="text-sm font-medium hover:text-primary transition-colors">Accessories</Link>
+        </nav>
+
+        {/* Actions */}
+        <div className="flex items-center gap-2 sm:gap-4 flex-1 justify-end">
+          <div className={`hidden sm:flex items-center relative transition-all duration-300 ${isSearchOpen ? 'w-64' : 'w-10'}`}>
+            <Input 
+              placeholder="Search products..." 
+              className={`pr-10 transition-opacity duration-300 ${isSearchOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+            />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="absolute right-0"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+            >
+              {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+            </Button>
+          </div>
+
+          <Link href="/cart">
+            <Button variant="ghost" size="icon" className="relative group">
+              <ShoppingCart className="h-5 w-5 group-hover:scale-110 transition-transform" />
+              {cartCount > 0 && (
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-[10px] bg-accent">
+                  {cartCount}
+                </Badge>
+              )}
+            </Button>
+          </Link>
+
+          <Link href="/orders">
+            <Button variant="ghost" size="icon" className="group">
+              <User className="h-5 w-5 group-hover:scale-110 transition-transform" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+}

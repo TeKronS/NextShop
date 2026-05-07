@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "prod-1",
+      "description": "Modern Minimalist Watch",
+      "imageUrl": "https://picsum.photos/seed/watch/600/400",
+      "imageHint": "minimalist watch"
+    },
+    {
+      "id": "prod-2",
+      "description": "Wireless Noise Cancelling Headphones",
+      "imageUrl": "https://picsum.photos/seed/headphones/600/400",
+      "imageHint": "modern headphones"
+    },
+    {
+      "id": "prod-3",
+      "description": "Sleek Aluminum Laptop",
+      "imageUrl": "https://picsum.photos/seed/laptop/600/400",
+      "imageHint": "premium laptop"
+    },
+    {
+      "id": "prod-4",
+      "description": "Smart Home Assistant Speaker",
+      "imageUrl": "https://picsum.photos/seed/speaker/600/400",
+      "imageHint": "smart speaker"
+    },
+    {
+      "id": "prod-5",
+      "description": "Professional Mirrorless Camera",
+      "imageUrl": "https://picsum.photos/seed/camera/600/400",
+      "imageHint": "mirrorless camera"
+    },
+    {
+      "id": "prod-6",
+      "description": "Ergonomic Mechanical Keyboard",
+      "imageUrl": "https://picsum.photos/seed/keyboard/600/400",
+      "imageHint": "mechanical keyboard"
+    },
+    {
+      "id": "hero-main",
+      "description": "NextShop Banner",
+      "imageUrl": "https://picsum.photos/seed/shop/1200/600",
+      "imageHint": "tech lifestyle"
+    }
+  ]
 }
