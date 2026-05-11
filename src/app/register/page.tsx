@@ -106,7 +106,7 @@ export default function RegisterPage() {
               <AlertTriangle className="h-4 w-4" />
               <AlertTitle className="font-bold">Dominio no autorizado</AlertTitle>
               <AlertDescription className="space-y-3">
-                <p className="text-xs">Este dominio debe ser añadido en tu Consola de Firebase (Authentication > Settings > Authorized domains).</p>
+                <p className="text-xs">Este dominio debe ser añadido en tu Consola de Firebase (Authentication &gt; Settings &gt; Authorized domains).</p>
                 <div className="flex items-center gap-2 p-2 bg-white/50 rounded-lg border border-destructive/20">
                   <code className="flex-1 text-[10px] font-mono truncate">{domainError}</code>
                   <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive" onClick={handleCopyDomain}>
