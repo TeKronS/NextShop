@@ -5,16 +5,35 @@ import Link from 'next/link';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ProductCard } from '@/components/product/product-card';
-import { MOCK_PRODUCTS } from '@/lib/mock-data';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useLanguage } from '@/components/language/language-context';
-import { ArrowRight, Star, ShieldCheck, Zap } from 'lucide-react';
+import { ArrowRight, Star, ShieldCheck, Zap, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { Product } from '@/lib/types';
 
 export default function Home() {
   const { t } = useLanguage();
-  const featuredProducts = MOCK_PRODUCTS.slice(0, 3);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const heroImage = PlaceHolderImages.find(img => img.id === 'hero-main')?.imageUrl || '';
+
+  useEffect(() => {
+    // Traer los últimos 6 productos publicados
+    const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(6));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const prods = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Product[];
+      setFeaturedProducts(prods);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -28,7 +47,7 @@ export default function Home() {
             alt="Hero Background" 
             fill 
             className="object-cover opacity-60" 
-            data-ai-hint="lifestyle tech"
+            data-ai-hint="tech lifestyle"
             priority
           />
           <div className="container mx-auto px-4 relative z-10 text-white">
@@ -49,7 +68,7 @@ export default function Home() {
                     {t.hero.shopNow} <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-                <Link href="/products?category=Electronics">
+                <Link href="/products">
                   <Button size="lg" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20 px-8 py-6 text-lg rounded-xl h-auto backdrop-blur">
                     {t.hero.viewCategories}
                   </Button>
@@ -110,11 +129,23 @@ export default function Home() {
             </Link>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredProducts.length > 0 ? (
+                featuredProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))
+              ) : (
+                <div className="col-span-full text-center py-12 text-muted-foreground">
+                  No hay productos disponibles todavía. ¡Sé el primero en vender uno!
+                </div>
+              )}
+            </div>
+          )}
         </section>
 
         {/* Newsletter / CTA Section */}
@@ -137,7 +168,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* Decorative circles */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
         </section>

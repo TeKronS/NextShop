@@ -4,31 +4,52 @@ import { useSearchParams } from 'next/navigation';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ProductCard } from '@/components/product/product-card';
-import { MOCK_PRODUCTS } from '@/lib/mock-data';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Filter, SlidersHorizontal, Search } from 'lucide-react';
+import { Filter, SlidersHorizontal, Search, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useLanguage } from '@/components/language/language-context';
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { Product } from '@/lib/types';
 
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category');
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState(initialCategory || 'All');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
 
-  const categories = ['All', ...Array.from(new Set(MOCK_PRODUCTS.map(p => p.category)))];
+  useEffect(() => {
+    const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const prods = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Product[];
+      setProducts(prods);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const categories = useMemo(() => {
+    const cats = ['All', ...Array.from(new Set(products.map(p => p.category)))];
+    return cats;
+  }, [products]);
 
   const filteredProducts = useMemo(() => {
-    return MOCK_PRODUCTS.filter(product => {
+    return products.filter(product => {
       const matchesCategory = activeCategory === 'All' || product.category === activeCategory;
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           product.description.toLowerCase().includes(searchTerm.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [activeCategory, searchTerm]);
+  }, [activeCategory, searchTerm, products]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -37,7 +58,9 @@ export default function ProductsPage() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
           <div className="space-y-1">
             <h1 className="text-4xl font-headline font-bold tracking-tight">{t.catalog.title}</h1>
-            <p className="text-muted-foreground">{t.catalog.results.replace('{count}', filteredProducts.length.toString())}</p>
+            <p className="text-muted-foreground">
+              {loading ? t.common.loading : t.catalog.results.replace('{count}', filteredProducts.length.toString())}
+            </p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
@@ -81,36 +104,15 @@ export default function ProductsPage() {
                 ))}
               </div>
             </div>
-
-            <div>
-              <h3 className="font-headline font-bold mb-4">{t.catalog.priceRange}</h3>
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-2">
-                  <Input type="number" placeholder="Min" className="rounded-lg h-9" />
-                  <Input type="number" placeholder="Max" className="rounded-lg h-9" />
-                </div>
-                <Button className="w-full h-9 rounded-lg" variant="secondary">{t.catalog.apply}</Button>
-              </div>
-            </div>
           </aside>
 
           {/* Product Grid */}
           <div className="lg:col-span-4">
-            {/* Mobile Categories */}
-            <div className="lg:hidden flex overflow-x-auto gap-2 mb-8 pb-2 no-scrollbar">
-              {categories.map(cat => (
-                <Badge
-                  key={cat}
-                  variant={activeCategory === cat ? 'default' : 'outline'}
-                  className="cursor-pointer px-4 py-2 text-sm whitespace-nowrap rounded-full"
-                  onClick={() => setActiveCategory(cat)}
-                >
-                  {cat}
-                </Badge>
-              ))}
-            </div>
-
-            {filteredProducts.length > 0 ? (
+            {loading ? (
+              <div className="flex justify-center py-24">
+                <Loader2 className="h-10 w-10 animate-spin text-primary" />
+              </div>
+            ) : filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
                 {filteredProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
