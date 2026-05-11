@@ -38,10 +38,16 @@ export default function RegisterPage() {
       router.push('/');
     } catch (error: any) {
       console.error(error);
+      let errorMessage = error.message;
+      
+      if (error.code === 'auth/configuration-not-found') {
+        errorMessage = "Email/Password authentication is not enabled in the Firebase Console. Please enable it under Build > Authentication > Sign-in method.";
+      }
+
       toast({
         variant: "destructive",
         title: t.auth.registerError,
-        description: error.message,
+        description: errorMessage,
       });
     } finally {
       setLoading(false);
