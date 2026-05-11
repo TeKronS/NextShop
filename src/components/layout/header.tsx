@@ -1,12 +1,13 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, User, Search, Menu, X, Globe, LucideIcon, Rocket, ShoppingBag, Zap, Package } from 'lucide-react';
+import { ShoppingCart, User, Search, Menu, X, Globe, LucideIcon, Rocket, ShoppingBag, Zap, Package, LogOut, PackageSearch } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/components/cart/cart-context';
 import { useLanguage } from '@/components/language/language-context';
+import { useAuth } from '@/components/auth/auth-context';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { BrandConfig } from '@/lib/brand-config';
@@ -15,9 +16,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
-// Mapeo de iconos para permitir configuración dinámica desde brand-config
 const iconMap: Record<string, LucideIcon> = {
   Rocket,
   ShoppingBag,
@@ -29,8 +32,14 @@ export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { cartCount } = useCart();
   const { language, setLanguage, t } = useLanguage();
+  const { user, logout } = useAuth();
   
   const LogoIcon = iconMap[BrandConfig.logo.iconName] || Rocket;
+
+  const getUserInitials = () => {
+    if (!user?.displayName) return 'U';
+    return user.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-border/40">
@@ -54,6 +63,12 @@ export function Header() {
                 <Link href="/" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.home}</Link>
                 <Link href="/products" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.shop}</Link>
                 <Link href="/orders" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.orders}</Link>
+                {!user && (
+                  <>
+                    <Link href="/login" className="text-lg font-medium hover:text-primary transition-colors">{t.auth.loginTitle}</Link>
+                    <Link href="/register" className="text-lg font-medium hover:text-primary transition-colors">{t.auth.registerTitle}</Link>
+                  </>
+                )}
               </nav>
             </SheetContent>
           </Sheet>
@@ -121,11 +136,45 @@ export function Header() {
             </Button>
           </Link>
 
-          <Link href="/orders">
-            <Button variant="ghost" size="icon" className="group">
-              <User className="h-5 w-5 group-hover:scale-110 transition-transform" />
-            </Button>
-          </Link>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback className="bg-primary text-white text-xs">
+                      {getUserInitials()}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{user.displayName || user.email}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/orders" className="cursor-pointer">
+                    <PackageSearch className="mr-2 h-4 w-4" />
+                    <span>{t.nav.orders}</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => logout()} className="text-destructive focus:text-destructive cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>{t.auth.logout}</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link href="/login">
+              <Button variant="ghost" size="icon" className="group">
+                <User className="h-5 w-5 group-hover:scale-110 transition-transform" />
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </header>

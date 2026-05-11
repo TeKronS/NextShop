@@ -1,0 +1,105 @@
+"use client";
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
+import { useLanguage } from '@/components/language/language-context';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
+import { LogIn, Loader2, ArrowRight } from 'lucide-react';
+
+export default function LoginPage() {
+  const { t } = useLanguage();
+  const { toast } = useToast();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast({
+        title: t.auth.loginSuccess,
+        description: t.auth.loginSuccessDesc,
+      });
+      router.push('/');
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: t.auth.loginError,
+        description: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen bg-[#f8fafc]">
+      <Header />
+      <main className="flex-1 flex items-center justify-center p-4 py-20">
+        <Card className="w-full max-w-md border-none shadow-2xl rounded-3xl overflow-hidden">
+          <CardHeader className="space-y-2 text-center pt-10">
+            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto text-primary mb-4">
+              <LogIn className="h-8 w-8" />
+            </div>
+            <CardTitle className="text-3xl font-headline font-bold">{t.auth.loginTitle}</CardTitle>
+            <CardDescription>{t.auth.loginDesc}</CardDescription>
+          </CardHeader>
+          <CardContent className="p-8 space-y-6">
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">{t.auth.email}</Label>
+                <Input 
+                  id="email" 
+                  type="email" 
+                  placeholder="name@example.com" 
+                  required 
+                  className="rounded-xl h-12"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <Label htmlFor="password">{t.auth.password}</Label>
+                </div>
+                <Input 
+                  id="password" 
+                  type="password" 
+                  required 
+                  className="rounded-xl h-12"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <Button type="submit" className="w-full py-6 rounded-xl h-auto text-lg gap-2" disabled={loading}>
+                {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <LogIn className="h-5 w-5" />}
+                {loading ? t.common.loading : t.auth.loginButton}
+              </Button>
+            </form>
+            
+            <div className="text-center text-sm">
+              <span className="text-muted-foreground">{t.auth.noAccount} </span>
+              <Link href="/register" className="text-primary font-bold hover:underline">
+                {t.auth.registerLink}
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </main>
+      <Footer />
+    </div>
+  );
+}

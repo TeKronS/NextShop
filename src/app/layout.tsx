@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { CartProvider } from '@/components/cart/cart-context';
 import { LanguageProvider } from '@/components/language/language-context';
+import { AuthProvider } from '@/components/auth/auth-context';
 import { BrandConfig } from '@/lib/brand-config';
 
 export const metadata: Metadata = {
@@ -24,10 +25,12 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased min-h-screen">
         <LanguageProvider>
-          <CartProvider>
-            {children}
-            <Toaster />
-          </CartProvider>
+          <AuthProvider>
+            <CartProvider>
+              {children}
+              <Toaster />
+            </CartProvider>
+          </AuthProvider>
         </LanguageProvider>
       </body>
     </html>
