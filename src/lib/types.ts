@@ -1,12 +1,25 @@
+export interface ProductSpecifications {
+  weight?: string;
+  size?: string;
+  color?: string;
+  batteryLife?: string;
+  batteryCapacity?: string;
+  techSpecs?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
   description: string;
   price: number;
   category: string;
+  subcategory?: string;
   imageUrl: string;
   imageHint: string;
   stock: number;
+  specifications?: ProductSpecifications;
+  sellerId?: string;
+  createdAt?: any;
 }
 
 export interface CartItem extends Product {

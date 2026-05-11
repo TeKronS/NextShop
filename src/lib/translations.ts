@@ -13,8 +13,57 @@ export const translations = {
       orders: 'Orders',
       admin: 'Admin',
       about: 'About Us',
-      contact: 'Contact'
+      contact: 'Contact',
+      sell: 'Sell Product'
     },
+    sell: {
+      title: 'Sell a Product',
+      subtitle: 'List your item in our marketplace and reach thousands of buyers.',
+      basicInfo: 'Basic Information',
+      productName: 'Product Name',
+      category: 'Category',
+      subcategory: 'Subcategory',
+      price: 'Price (USD)',
+      stock: 'Initial Stock',
+      description: 'Full Description',
+      media: 'Product Media',
+      imageUrl: 'Image URL',
+      imageDesc: 'Paste a direct link to your product image (e.g., from Unsplash or Pixabay).',
+      specs: 'Specifications',
+      weight: 'Weight',
+      size: 'Dimensions (Size)',
+      color: 'Color',
+      batteryDuration: 'Battery Life',
+      batteryCapacity: 'Battery Capacity',
+      techSpecs: 'Technical Specs',
+      publish: 'Publish Product',
+      success: 'Product Published!',
+      successDesc: 'Your product is now live in the catalog.',
+      error: 'Error publishing product'
+    },
+    categories: {
+      electronics: {
+        name: 'Electronics',
+        subs: ['Laptops', 'Smartphones', 'Audio', 'Cameras', 'Tablets', 'Gaming']
+      },
+      home: {
+        name: 'Home & Garden',
+        subs: ['Furniture', 'Decor', 'Kitchen', 'Appliances', 'Tools']
+      },
+      fashion: {
+        name: 'Fashion',
+        subs: ['Men', 'Women', 'Kids', 'Accessories', 'Shoes']
+      },
+      sports: {
+        name: 'Sports & Outdoors',
+        subs: ['Fitness', 'Camping', 'Cycling', 'Team Sports']
+      },
+      beauty: {
+        name: 'Beauty & Health',
+        subs: ['Skincare', 'Makeup', 'Haircare', 'Wellness']
+      }
+    },
+    // ... rest of translations preserved for brevity, including the existing ones
     hero: {
       badge: 'New Arrival 2025 Collection',
       title: `Premium Tech for Modern Living at ${BrandConfig.name}`,
@@ -194,8 +243,57 @@ export const translations = {
       orders: 'Pedidos',
       admin: 'Admin',
       about: 'Sobre Nosotros',
-      contact: 'Contacto'
+      contact: 'Contacto',
+      sell: 'Vender Producto'
     },
+    sell: {
+      title: 'Vender un Producto',
+      subtitle: 'Publica tu artículo en nuestro mercado y llega a miles de compradores.',
+      basicInfo: 'Información Básica',
+      productName: 'Nombre del Producto',
+      category: 'Categoría',
+      subcategory: 'Subcategoría',
+      price: 'Precio (USD)',
+      stock: 'Stock Inicial',
+      description: 'Descripción Completa',
+      media: 'Multimedia',
+      imageUrl: 'URL de la Imagen',
+      imageDesc: 'Pega un enlace directo a la imagen de tu producto (ej. de Unsplash o Pixabay).',
+      specs: 'Especificaciones',
+      weight: 'Peso',
+      size: 'Dimensiones (Tamaño)',
+      color: 'Color',
+      batteryDuration: 'Duración de Batería',
+      batteryCapacity: 'Capacidad de Batería',
+      techSpecs: 'Especificaciones Técnicas',
+      publish: 'Publicar Producto',
+      success: '¡Producto Publicado!',
+      successDesc: 'Tu producto ya está disponible en el catálogo.',
+      error: 'Error al publicar el producto'
+    },
+    categories: {
+      electronics: {
+        name: 'Electrónica',
+        subs: ['Portátiles', 'Smartphones', 'Audio', 'Cámaras', 'Tablets', 'Gaming']
+      },
+      home: {
+        name: 'Hogar y Jardín',
+        subs: ['Muebles', 'Decoración', 'Cocina', 'Electrodomésticos', 'Herramientas']
+      },
+      fashion: {
+        name: 'Moda',
+        subs: ['Hombre', 'Mujer', 'Niños', 'Accesorios', 'Zapatos']
+      },
+      sports: {
+        name: 'Deportes y Aire Libre',
+        subs: ['Fitness', 'Camping', 'Ciclismo', 'Deportes de Equipo']
+      },
+      beauty: {
+        name: 'Belleza y Salud',
+        subs: ['Cuidado de la piel', 'Maquillaje', 'Cuidado del cabello', 'Bienestar']
+      }
+    },
+    // ... rest of translations preserved for brevity
     hero: {
       badge: 'Nueva Colección 2025',
       title: `Tecnología Premium para la Vida Moderna en ${BrandConfig.name}`,

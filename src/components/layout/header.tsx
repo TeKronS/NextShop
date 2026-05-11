@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, User, Search, Menu, X, Globe, LucideIcon, Rocket, ShoppingBag, Zap, Package, LogOut, PackageSearch, LogIn } from 'lucide-react';
+import { ShoppingCart, User, Search, Menu, X, Globe, LucideIcon, Rocket, ShoppingBag, Zap, Package, LogOut, PackageSearch, LogIn, PlusCircle } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -62,6 +62,7 @@ export function Header() {
               <nav className="flex flex-col gap-4 mt-8">
                 <Link href="/" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.home}</Link>
                 <Link href="/products" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.shop}</Link>
+                <Link href="/products/new" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.sell}</Link>
                 <Link href="/orders" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.orders}</Link>
                 {!user && (
                   <>
@@ -88,7 +89,10 @@ export function Header() {
         <nav className="hidden md:flex items-center gap-8 ml-8">
           <Link href="/products" className="text-sm font-medium hover:text-primary transition-colors">{t.nav.shop}</Link>
           <Link href="/products?category=Electronics" className="text-sm font-medium hover:text-primary transition-colors">{t.nav.electronics}</Link>
-          <Link href="/products?category=Accessories" className="text-sm font-medium hover:text-primary transition-colors">{t.nav.accessories}</Link>
+          <Link href="/products/new" className="flex items-center gap-2 text-sm font-bold text-accent hover:text-accent/80 transition-colors">
+            <PlusCircle className="h-4 w-4" />
+            {t.nav.sell}
+          </Link>
         </nav>
 
         {/* Actions */}
@@ -159,6 +163,12 @@ export function Header() {
                   <Link href="/orders" className="cursor-pointer">
                     <PackageSearch className="mr-2 h-4 w-4" />
                     <span>{t.nav.orders}</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/products/new" className="cursor-pointer text-accent font-bold">
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    <span>{t.nav.sell}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
