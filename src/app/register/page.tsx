@@ -45,7 +45,9 @@ export default function RegisterPage() {
       let errorMessage = error.message;
       
       if (error.code === 'auth/configuration-not-found') {
-        errorMessage = "Email/Password authentication is not enabled in the Firebase Console. Please enable it under Build > Authentication > Sign-in method.";
+        errorMessage = "El método Email/Password no está habilitado en la Consola de Firebase.";
+      } else if (error.code === 'auth/unauthorized-domain') {
+        errorMessage = `Este dominio (${window.location.hostname}) no está autorizado en la Consola de Firebase (Autenticación > Ajustes > Dominios autorizados).`;
       }
 
       toast({
@@ -69,10 +71,16 @@ export default function RegisterPage() {
       router.push('/');
     } catch (error: any) {
       console.error(error);
+      let errorMessage = error.message;
+
+      if (error.code === 'auth/unauthorized-domain') {
+        errorMessage = `Este dominio (${window.location.hostname}) no está autorizado en la Consola de Firebase (Autenticación > Ajustes > Dominios autorizados).`;
+      }
+
       toast({
         variant: "destructive",
         title: t.auth.registerError,
-        description: error.message,
+        description: errorMessage,
       });
     } finally {
       setGoogleLoading(false);
