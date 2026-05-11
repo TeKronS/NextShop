@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, User, Search, Menu, X, Globe, LucideIcon, Rocket, ShoppingBag, Zap, Package, LogOut, PackageSearch, LogIn, PlusCircle } from 'lucide-react';
+import { ShoppingCart, User, Search, Menu, X, Globe, LucideIcon, Rocket, ShoppingBag, Zap, Package, LogOut, PackageSearch, LogIn, PlusCircle, LayoutGrid } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -62,8 +62,9 @@ export function Header() {
               <nav className="flex flex-col gap-4 mt-8">
                 <Link href="/" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.home}</Link>
                 <Link href="/products" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.shop}</Link>
-                <Link href="/products/new" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.sell}</Link>
+                <Link href="/products/new" className="text-lg font-medium hover:text-primary transition-colors font-bold text-accent">{t.nav.sell}</Link>
                 <Link href="/orders" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.orders}</Link>
+                {user && <Link href="/my-products" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.myProducts}</Link>}
                 {!user && (
                   <>
                     <Link href="/login" className="text-lg font-medium hover:text-primary transition-colors">{t.auth.loginTitle}</Link>
@@ -143,7 +144,7 @@ export function Header() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button variant="ghost" size="icon" className="rounded-full border border-border/50">
                   <Avatar className="h-8 w-8">
                     <AvatarFallback className="bg-primary text-white text-xs">
                       {getUserInitials()}
@@ -151,28 +152,34 @@ export function Header() {
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" className="w-56 rounded-2xl p-2 shadow-2xl border-none">
                 <DropdownMenuLabel>
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user.displayName || user.email}</p>
-                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                  <div className="flex flex-col space-y-1 p-2">
+                    <p className="text-sm font-bold leading-none">{user.displayName || user.email}</p>
+                    <p className="text-[10px] leading-none text-muted-foreground truncate">{user.email}</p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link href="/orders" className="cursor-pointer">
-                    <PackageSearch className="mr-2 h-4 w-4" />
+                  <Link href="/orders" className="cursor-pointer rounded-xl p-3">
+                    <PackageSearch className="mr-2 h-4 w-4 text-primary" />
                     <span>{t.nav.orders}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/products/new" className="cursor-pointer text-accent font-bold">
+                  <Link href="/my-products" className="cursor-pointer rounded-xl p-3">
+                    <LayoutGrid className="mr-2 h-4 w-4 text-primary" />
+                    <span>{t.nav.myProducts}</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/products/new" className="cursor-pointer text-accent font-bold rounded-xl p-3">
                     <PlusCircle className="mr-2 h-4 w-4" />
                     <span>{t.nav.sell}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => logout()} className="text-destructive focus:text-destructive cursor-pointer">
+                <DropdownMenuItem onClick={() => logout()} className="text-destructive focus:text-destructive cursor-pointer rounded-xl p-3">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>{t.auth.logout}</span>
                 </DropdownMenuItem>
@@ -180,8 +187,8 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <Link href="/login">
-              <Button variant="ghost" size="icon" className="group">
-                <LogIn className="h-5 w-5 group-hover:scale-110 transition-transform" />
+              <Button variant="ghost" size="icon" className="group rounded-full bg-slate-50 hover:bg-primary hover:text-white transition-all">
+                <LogIn className="h-5 w-5 group-hover:scale-110" />
               </Button>
             </Link>
           )}

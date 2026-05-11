@@ -14,7 +14,8 @@ export const translations = {
       admin: 'Admin',
       about: 'About Us',
       contact: 'Contact',
-      sell: 'Sell Product'
+      sell: 'Sell Product',
+      myProducts: 'My Inventory'
     },
     sell: {
       title: 'Sell a Product',
@@ -41,6 +42,15 @@ export const translations = {
       successDesc: 'Your product is now live in the catalog.',
       error: 'Error publishing product'
     },
+    myProducts: {
+      title: 'My Published Products',
+      subtitle: 'Manage your active listings and stock.',
+      noProducts: 'You haven\'t published any products yet.',
+      deleteConfirm: 'Are you sure you want to delete this product?',
+      deleteSuccess: 'Product deleted successfully',
+      edit: 'Edit',
+      delete: 'Delete'
+    },
     categories: {
       electronics: {
         name: 'Electronics',
@@ -63,7 +73,6 @@ export const translations = {
         subs: ['Skincare', 'Makeup', 'Haircare', 'Wellness']
       }
     },
-    // ... rest of translations preserved for brevity, including the existing ones
     hero: {
       badge: 'New Arrival 2025 Collection',
       title: `Premium Tech for Modern Living at ${BrandConfig.name}`,
@@ -244,7 +253,8 @@ export const translations = {
       admin: 'Admin',
       about: 'Sobre Nosotros',
       contact: 'Contacto',
-      sell: 'Vender Producto'
+      sell: 'Vender Producto',
+      myProducts: 'Mi Inventario'
     },
     sell: {
       title: 'Vender un Producto',
@@ -271,6 +281,15 @@ export const translations = {
       successDesc: 'Tu producto ya está disponible en el catálogo.',
       error: 'Error al publicar el producto'
     },
+    myProducts: {
+      title: 'Mis Productos Publicados',
+      subtitle: 'Gestiona tus anuncios activos y stock.',
+      noProducts: 'Aún no has publicado ningún producto.',
+      deleteConfirm: '¿Estás seguro de que deseas eliminar este producto?',
+      deleteSuccess: 'Producto eliminado con éxito',
+      edit: 'Editar',
+      delete: 'Eliminar'
+    },
     categories: {
       electronics: {
         name: 'Electrónica',
@@ -293,7 +312,6 @@ export const translations = {
         subs: ['Cuidado de la piel', 'Maquillaje', 'Cuidado del cabello', 'Bienestar']
       }
     },
-    // ... rest of translations preserved for brevity
     hero: {
       badge: 'Nueva Colección 2025',
       title: `Tecnología Premium para la Vida Moderna en ${BrandConfig.name}`,
@@ -407,7 +425,7 @@ export const translations = {
       subtitle: `Excelencia desde 2025. Descubre por qué ${BrandConfig.name} es la elección de los profesionales modernos.`,
       mission: 'Nuestra Misión',
       missionText: `En ${BrandConfig.name}, nuestra misión es simplificar la vida moderna a través de tecnología seleccionada. Creemos que las herramientas no solo deben ser funcionales, sino también estéticas y duraderas.`,
-      vision: 'Nuestra Visión',
+      vision: 'Nuestra Vision',
       visionText: 'Convertirnos en el destino global para la tecnología de estilo de vida que potencia la creatividad y productividad en cada hogar y oficina.',
       values: {
         quality: 'Calidad Sin Compromisos',
