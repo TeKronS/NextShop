@@ -119,7 +119,9 @@ export const translations = {
       noAccount: 'Don\'t have an account?',
       registerLink: 'Sign Up',
       haveAccount: 'Already have an account?',
-      loginLink: 'Sign In'
+      loginLink: 'Sign In',
+      googleLogin: 'Continue with Google',
+      or: 'or continue with email'
     },
     about: {
       title: 'Our Story',
@@ -298,7 +300,9 @@ export const translations = {
       noAccount: '¿No tienes una cuenta?',
       registerLink: 'Regístrate',
       haveAccount: '¿Ya tienes una cuenta?',
-      loginLink: 'Inicia Sesión'
+      loginLink: 'Inicia Sesión',
+      googleLogin: 'Continuar con Google',
+      or: 'o continúa con email'
     },
     about: {
       title: 'Nuestra Historia',
@@ -326,7 +330,7 @@ export const translations = {
       name: 'Nombre Completo',
       email: 'Correo Electrónico',
       subject: 'Asunto',
-      message: 'Mensaje',
+      message: 'Message',
       send: 'Enviar Mensaje',
       success: '¡Mensaje Enviado!',
       successDesc: 'Gracias por contactarnos. Responderemos a la brevedad.',

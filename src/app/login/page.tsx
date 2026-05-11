@@ -8,18 +8,22 @@ import { auth } from '@/lib/firebase';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { useLanguage } from '@/components/language/language-context';
+import { useAuth } from '@/components/auth/auth-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { LogIn, Loader2 } from 'lucide-react';
+import { LogIn, Loader2, Chrome } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 export default function LoginPage() {
   const { t } = useLanguage();
   const { toast } = useToast();
+  const { loginWithGoogle } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -51,6 +55,27 @@ export default function LoginPage() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    try {
+      await loginWithGoogle();
+      toast({
+        title: t.auth.loginSuccess,
+        description: t.auth.loginSuccessDesc,
+      });
+      router.push('/');
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: t.auth.loginError,
+        description: error.message,
+      });
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-[#f8fafc]">
       <Header />
@@ -64,37 +89,58 @@ export default function LoginPage() {
             <CardDescription>{t.auth.loginDesc}</CardDescription>
           </CardHeader>
           <CardContent className="p-8 space-y-6">
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="email">{t.auth.email}</Label>
-                <Input 
-                  id="email" 
-                  type="email" 
-                  placeholder="name@example.com" 
-                  required 
-                  className="rounded-xl h-12"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <Label htmlFor="password">{t.auth.password}</Label>
-                </div>
-                <Input 
-                  id="password" 
-                  type="password" 
-                  required 
-                  className="rounded-xl h-12"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <Button type="submit" className="w-full py-6 rounded-xl h-auto text-lg gap-2" disabled={loading}>
-                {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <LogIn className="h-5 w-5" />}
-                {loading ? t.common.loading : t.auth.loginButton}
+            <div className="space-y-4">
+              <Button 
+                variant="outline" 
+                className="w-full py-6 rounded-xl h-auto gap-3 border-border hover:bg-slate-50"
+                onClick={handleGoogleLogin}
+                disabled={googleLoading}
+              >
+                {googleLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Chrome className="h-5 w-5 text-blue-500" />}
+                {t.auth.googleLogin}
               </Button>
-            </form>
+              
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Separator />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-white px-2 text-muted-foreground">{t.auth.or}</span>
+                </div>
+              </div>
+
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">{t.auth.email}</Label>
+                  <Input 
+                    id="email" 
+                    type="email" 
+                    placeholder="name@example.com" 
+                    required 
+                    className="rounded-xl h-12"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <Label htmlFor="password">{t.auth.password}</Label>
+                  </div>
+                  <Input 
+                    id="password" 
+                    type="password" 
+                    required 
+                    className="rounded-xl h-12"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <Button type="submit" className="w-full py-6 rounded-xl h-auto text-lg gap-2" disabled={loading}>
+                  {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <LogIn className="h-5 w-5" />}
+                  {loading ? t.common.loading : t.auth.loginButton}
+                </Button>
+              </form>
+            </div>
             
             <div className="text-center text-sm">
               <span className="text-muted-foreground">{t.auth.noAccount} </span>

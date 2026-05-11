@@ -4,7 +4,9 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { 
   onAuthStateChanged, 
   User, 
-  signOut 
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
@@ -12,6 +14,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   logout: () => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,8 +40,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const loginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Error signing in with Google", error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, logout }}>
+    <AuthContext.Provider value={{ user, loading, logout, loginWithGoogle }}>
       {children}
     </AuthContext.Provider>
   );
