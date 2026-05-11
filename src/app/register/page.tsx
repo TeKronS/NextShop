@@ -14,8 +14,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, Loader2, Chrome } from 'lucide-react';
+import { UserPlus, Loader2, Chrome, AlertTriangle, Copy, Check } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function RegisterPage() {
   const { t } = useLanguage();
@@ -27,10 +28,25 @@ export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [domainError, setDomainError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyDomain = () => {
+    if (domainError) {
+      navigator.clipboard.writeText(domainError);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      toast({
+        title: "Copiado",
+        description: "Dominio copiado al portapapeles.",
+      });
+    }
+  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setDomainError(null);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
@@ -42,18 +58,13 @@ export default function RegisterPage() {
       router.push('/');
     } catch (error: any) {
       console.error(error);
-      let errorMessage = error.message;
-      
-      if (error.code === 'auth/configuration-not-found') {
-        errorMessage = "El método Email/Password no está habilitado en la Consola de Firebase.";
-      } else if (error.code === 'auth/unauthorized-domain') {
-        errorMessage = `Este dominio (${window.location.hostname}) no está autorizado en la Consola de Firebase (Autenticación > Ajustes > Dominios autorizados).`;
+      if (error.code === 'auth/unauthorized-domain') {
+        setDomainError(window.location.hostname);
       }
-
       toast({
         variant: "destructive",
         title: t.auth.registerError,
-        description: errorMessage,
+        description: error.message,
       });
     } finally {
       setLoading(false);
@@ -62,6 +73,7 @@ export default function RegisterPage() {
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
+    setDomainError(null);
     try {
       await loginWithGoogle();
       toast({
@@ -71,16 +83,13 @@ export default function RegisterPage() {
       router.push('/');
     } catch (error: any) {
       console.error(error);
-      let errorMessage = error.message;
-
       if (error.code === 'auth/unauthorized-domain') {
-        errorMessage = `Este dominio (${window.location.hostname}) no está autorizado en la Consola de Firebase (Autenticación > Ajustes > Dominios autorizados).`;
+        setDomainError(window.location.hostname);
       }
-
       toast({
         variant: "destructive",
         title: t.auth.registerError,
-        description: errorMessage,
+        description: error.message,
       });
     } finally {
       setGoogleLoading(false);
@@ -91,85 +100,103 @@ export default function RegisterPage() {
     <div className="flex flex-col min-h-screen bg-[#f8fafc]">
       <Header />
       <main className="flex-1 flex items-center justify-center p-4 py-20">
-        <Card className="w-full max-w-md border-none shadow-2xl rounded-3xl overflow-hidden">
-          <CardHeader className="space-y-2 text-center pt-10">
-            <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto text-accent mb-4">
-              <UserPlus className="h-8 w-8" />
-            </div>
-            <CardTitle className="text-3xl font-headline font-bold">{t.auth.registerTitle}</CardTitle>
-            <CardDescription>{t.auth.registerDesc}</CardDescription>
-          </CardHeader>
-          <CardContent className="p-8 space-y-6">
-            <div className="space-y-4">
-              <Button 
-                variant="outline" 
-                className="w-full py-6 rounded-xl h-auto gap-3 border-border hover:bg-slate-50"
-                onClick={handleGoogleLogin}
-                disabled={googleLoading}
-              >
-                {googleLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Chrome className="h-5 w-5 text-blue-500" />}
-                {t.auth.googleLogin}
-              </Button>
+        <div className="w-full max-w-md space-y-4">
+          {domainError && (
+            <Alert variant="destructive" className="bg-destructive/10 border-destructive/20 text-destructive rounded-2xl">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle className="font-bold">Dominio no autorizado</AlertTitle>
+              <AlertDescription className="space-y-3">
+                <p className="text-xs">Este dominio debe ser añadido en tu Consola de Firebase (Authentication &gt; Settings &gt; Authorized domains).</p>
+                <div className="flex items-center gap-2 p-2 bg-white/50 rounded-lg border border-destructive/20">
+                  <code className="flex-1 text-[10px] font-mono truncate">{domainError}</code>
+                  <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive" onClick={handleCopyDomain}>
+                    {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                  </Button>
+                </div>
+              </AlertDescription>
+            </Alert>
+          )}
 
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <Separator />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white px-2 text-muted-foreground">{t.auth.or}</span>
-                </div>
+          <Card className="w-full max-w-md border-none shadow-2xl rounded-3xl overflow-hidden">
+            <CardHeader className="space-y-2 text-center pt-10">
+              <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto text-accent mb-4">
+                <UserPlus className="h-8 w-8" />
               </div>
-
-              <form onSubmit={handleRegister} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">{t.auth.name}</Label>
-                  <Input 
-                    id="name" 
-                    placeholder="John Doe" 
-                    required 
-                    className="rounded-xl h-12"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">{t.auth.email}</Label>
-                  <Input 
-                    id="email" 
-                    type="email" 
-                    placeholder="name@example.com" 
-                    required 
-                    className="rounded-xl h-12"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">{t.auth.password}</Label>
-                  <Input 
-                    id="password" 
-                    type="password" 
-                    required 
-                    className="rounded-xl h-12"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <Button type="submit" className="w-full py-6 rounded-xl h-auto text-lg gap-2 bg-accent hover:bg-accent/90" disabled={loading}>
-                  {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <UserPlus className="h-5 w-5" />}
-                  {loading ? t.common.loading : t.auth.registerButton}
+              <CardTitle className="text-3xl font-headline font-bold">{t.auth.registerTitle}</CardTitle>
+              <CardDescription>{t.auth.registerDesc}</CardDescription>
+            </CardHeader>
+            <CardContent className="p-8 space-y-6">
+              <div className="space-y-4">
+                <Button 
+                  variant="outline" 
+                  className="w-full py-6 rounded-xl h-auto gap-3 border-border hover:bg-slate-50"
+                  onClick={handleGoogleLogin}
+                  disabled={googleLoading}
+                >
+                  {googleLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Chrome className="h-5 w-5 text-blue-500" />}
+                  {t.auth.googleLogin}
                 </Button>
-              </form>
-            </div>
-            
-            <div className="text-center text-sm">
-              <span className="text-muted-foreground">{t.auth.haveAccount} </span>
-              <Link href="/login" className="text-accent font-bold hover:underline">
-                {t.auth.loginLink}
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <Separator />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-white px-2 text-muted-foreground">{t.auth.or}</span>
+                  </div>
+                </div>
+
+                <form onSubmit={handleRegister} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">{t.auth.name}</Label>
+                    <Input 
+                      id="name" 
+                      placeholder="John Doe" 
+                      required 
+                      className="rounded-xl h-12"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">{t.auth.email}</Label>
+                    <Input 
+                      id="email" 
+                      type="email" 
+                      placeholder="name@example.com" 
+                      required 
+                      className="rounded-xl h-12"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="password">{t.auth.password}</Label>
+                    <Input 
+                      id="password" 
+                      type="password" 
+                      required 
+                      className="rounded-xl h-12"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                  <Button type="submit" className="w-full py-6 rounded-xl h-auto text-lg gap-2 bg-accent hover:bg-accent/90" disabled={loading}>
+                    {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <UserPlus className="h-5 w-5" />}
+                    {loading ? t.common.loading : t.auth.registerButton}
+                  </Button>
+                </form>
+              </div>
+              
+              <div className="text-center text-sm">
+                <span className="text-muted-foreground">{t.auth.haveAccount} </span>
+                <Link href="/login" className="text-accent font-bold hover:underline">
+                  {t.auth.loginLink}
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </main>
       <Footer />
     </div>
