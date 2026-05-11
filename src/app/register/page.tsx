@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'export { useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, Loader2, Chrome, AlertTriangle, Copy, Check } from 'lucide-react';
+import { UserPlus, Loader2, AlertTriangle, Copy, Check } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -106,7 +106,7 @@ export default function RegisterPage() {
               <AlertTriangle className="h-4 w-4" />
               <AlertTitle className="font-bold">Dominio no autorizado</AlertTitle>
               <AlertDescription className="space-y-3">
-                <p className="text-xs">Este dominio debe ser añadido en tu Consola de Firebase (Authentication &gt; Settings &gt; Authorized domains).</p>
+                <p className="text-xs">Este dominio debe ser añadido en tu Consola de Firebase (Authentication > Settings > Authorized domains).</p>
                 <div className="flex items-center gap-2 p-2 bg-white/50 rounded-lg border border-destructive/20">
                   <code className="flex-1 text-[10px] font-mono truncate">{domainError}</code>
                   <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive" onClick={handleCopyDomain}>
