@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, User, Search, Menu, X, Globe, LucideIcon, Rocket, ShoppingBag, Zap, Package, LogOut, PackageSearch } from 'lucide-react';
+import { ShoppingCart, User, Search, Menu, X, Globe, LucideIcon, Rocket, ShoppingBag, Zap, Package, LogOut, PackageSearch, LogIn } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -171,7 +171,7 @@ export function Header() {
           ) : (
             <Link href="/login">
               <Button variant="ghost" size="icon" className="group">
-                <User className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                <LogIn className="h-5 w-5 group-hover:scale-110 transition-transform" />
               </Button>
             </Link>
           )}
