@@ -14,9 +14,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, Loader2, AlertTriangle, Copy, Check } from 'lucide-react';
+import { UserPlus, Loader2 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function RegisterPage() {
   const { t } = useLanguage();
@@ -28,25 +27,10 @@ export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [domainError, setDomainError] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyDomain = () => {
-    if (domainError) {
-      navigator.clipboard.writeText(domainError);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-      toast({
-        title: "Copiado",
-        description: "Dominio copiado al portapapeles.",
-      });
-    }
-  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setDomainError(null);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(userCredential.user, { displayName: name });
@@ -58,9 +42,6 @@ export default function RegisterPage() {
       router.push('/');
     } catch (error: any) {
       console.error(error);
-      if (error.code === 'auth/unauthorized-domain') {
-        setDomainError(window.location.hostname);
-      }
       toast({
         variant: "destructive",
         title: t.auth.registerError,
@@ -73,7 +54,6 @@ export default function RegisterPage() {
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
-    setDomainError(null);
     try {
       await loginWithGoogle();
       toast({
@@ -83,9 +63,6 @@ export default function RegisterPage() {
       router.push('/');
     } catch (error: any) {
       console.error(error);
-      if (error.code === 'auth/unauthorized-domain') {
-        setDomainError(window.location.hostname);
-      }
       toast({
         variant: "destructive",
         title: t.auth.registerError,
@@ -101,22 +78,6 @@ export default function RegisterPage() {
       <Header />
       <main className="flex-1 flex items-center justify-center p-4 py-20">
         <div className="w-full max-w-md space-y-4">
-          {domainError && (
-            <Alert variant="destructive" className="bg-destructive/10 border-destructive/20 text-destructive rounded-2xl">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertTitle className="font-bold">Dominio no autorizado</AlertTitle>
-              <AlertDescription className="space-y-3">
-                <p className="text-xs">Este dominio debe ser añadido en tu Consola de Firebase (Authentication &gt; Settings &gt; Authorized domains).</p>
-                <div className="flex items-center gap-2 p-2 bg-white/50 rounded-lg border border-destructive/20">
-                  <code className="flex-1 text-[10px] font-mono truncate">{domainError}</code>
-                  <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive" onClick={handleCopyDomain}>
-                    {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </AlertDescription>
-            </Alert>
-          )}
-
           <Card className="w-full max-w-md border-none shadow-2xl rounded-3xl overflow-hidden">
             <CardHeader className="space-y-2 text-center pt-10">
               <div className="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto text-accent mb-4">
