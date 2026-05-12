@@ -54,23 +54,59 @@ export const translations = {
     categories: {
       electronics: {
         name: 'Electronics',
-        subs: ['Laptops', 'Smartphones', 'Audio', 'Cameras', 'Tablets', 'Gaming']
+        subs: ['Laptops', 'Smartphones', 'Audio', 'Cameras', 'Tablets', 'Gaming', 'Wearables']
       },
       home: {
-        name: 'Home & Garden',
-        subs: ['Furniture', 'Decor', 'Kitchen', 'Appliances', 'Tools']
+        name: 'Home & Kitchen',
+        subs: ['Furniture', 'Decor', 'Bedding', 'Appliances', 'Cookware', 'Storage']
       },
       fashion: {
-        name: 'Fashion',
-        subs: ['Men', 'Women', 'Kids', 'Accessories', 'Shoes']
+        name: 'Fashion & Apparel',
+        subs: ['Men\'s Clothing', 'Women\'s Clothing', 'Kids', 'Accessories', 'Shoes', 'Jewelry']
       },
       sports: {
         name: 'Sports & Outdoors',
-        subs: ['Fitness', 'Camping', 'Cycling', 'Team Sports']
+        subs: ['Fitness', 'Camping', 'Cycling', 'Team Sports', 'Water Sports', 'Winter Sports']
       },
       beauty: {
-        name: 'Beauty & Health',
-        subs: ['Skincare', 'Makeup', 'Haircare', 'Wellness']
+        name: 'Beauty & Personal Care',
+        subs: ['Skincare', 'Makeup', 'Haircare', 'Fragrance', 'Wellness', 'Tools']
+      },
+      toys: {
+        name: 'Toys & Games',
+        subs: ['Action Figures', 'Board Games', 'Puzzles', 'Educational', 'Outdoor Play', 'Dolls']
+      },
+      books: {
+        name: 'Books & Media',
+        subs: ['Fiction', 'Non-Fiction', 'Education', 'Movies', 'Music', 'Video Games']
+      },
+      automotive: {
+        name: 'Automotive',
+        subs: ['Car Parts', 'Accessories', 'Tires', 'Tools', 'Motorcycles', 'Electronics']
+      },
+      pets: {
+        name: 'Pet Supplies',
+        subs: ['Dogs', 'Cats', 'Fish', 'Birds', 'Small Animals', 'Healthcare']
+      },
+      office: {
+        name: 'Office Supplies',
+        subs: ['Stationery', 'Office Furniture', 'Organization', 'Printers', 'Paper Products']
+      },
+      music: {
+        name: 'Musical Instruments',
+        subs: ['Guitars', 'Keyboards', 'Drums', 'Recording Gear', 'DJ Equipment', 'Orchestral']
+      },
+      art: {
+        name: 'Arts & Crafts',
+        subs: ['Painting', 'Sewing', 'Scrapbooking', 'Craft Kits', 'Needlework']
+      },
+      baby: {
+        name: 'Baby Products',
+        subs: ['Diapering', 'Feeding', 'Gear', 'Nursery', 'Safety', 'Toys']
+      },
+      industrial: {
+        name: 'Industrial & Scientific',
+        subs: ['Tools', 'Supplies', 'Safety', 'Janitorial', 'Education', 'Lab Gear']
       }
     },
     hero: {
@@ -293,23 +329,59 @@ export const translations = {
     categories: {
       electronics: {
         name: 'Electrónica',
-        subs: ['Portátiles', 'Smartphones', 'Audio', 'Cámaras', 'Tablets', 'Gaming']
+        subs: ['Portátiles', 'Smartphones', 'Audio', 'Cámaras', 'Tablets', 'Gaming', 'Wearables']
       },
       home: {
-        name: 'Hogar y Jardín',
-        subs: ['Muebles', 'Decoración', 'Cocina', 'Electrodomésticos', 'Herramientas']
+        name: 'Hogar y Cocina',
+        subs: ['Muebles', 'Decoración', 'Camas y Baño', 'Electrodomésticos', 'Menaje', 'Almacenamiento']
       },
       fashion: {
-        name: 'Moda',
-        subs: ['Hombre', 'Mujer', 'Niños', 'Accesorios', 'Zapatos']
+        name: 'Moda y Ropa',
+        subs: ['Ropa Hombre', 'Ropa Mujer', 'Niños', 'Accesorios', 'Zapatos', 'Joyería']
       },
       sports: {
-        name: 'Deportes y Aire Libre',
-        subs: ['Fitness', 'Camping', 'Ciclismo', 'Deportes de Equipo']
+        name: 'Deportes y Exterior',
+        subs: ['Fitness', 'Camping', 'Ciclismo', 'Deportes de Equipo', 'Deportes Acuáticos', 'Invierno']
       },
       beauty: {
-        name: 'Belleza y Salud',
-        subs: ['Cuidado de la piel', 'Maquillaje', 'Cuidado del cabello', 'Bienestar']
+        name: 'Belleza y Cuidado Personal',
+        subs: ['Cuidado Piel', 'Maquillaje', 'Cuidado Cabello', 'Perfumes', 'Bienestar', 'Herramientas']
+      },
+      toys: {
+        name: 'Juguetes y Juegos',
+        subs: ['Figuras de Acción', 'Juegos de Mesa', 'Puzles', 'Educativos', 'Aire Libre', 'Muñecas']
+      },
+      books: {
+        name: 'Libros y Multimedia',
+        subs: ['Ficción', 'No Ficción', 'Educación', 'Cine', 'Música', 'Videojuegos']
+      },
+      automotive: {
+        name: 'Automotriz',
+        subs: ['Repuestos', 'Accesorios', 'Neumáticos', 'Herramientas', 'Motos', 'Electrónica']
+      },
+      pets: {
+        name: 'Mascotas',
+        subs: ['Perros', 'Gatos', 'Peces', 'Aves', 'Pequeños Animales', 'Salud']
+      },
+      office: {
+        name: 'Oficina y Papelería',
+        subs: ['Papelería', 'Muebles Oficina', 'Organización', 'Impresoras', 'Papel']
+      },
+      music: {
+        name: 'Instrumentos Musicales',
+        subs: ['Guitarras', 'Teclados', 'Baterías', 'Grabación', 'Equipos DJ', 'Orquestal']
+      },
+      art: {
+        name: 'Arte y Manualidades',
+        subs: ['Pintura', 'Costura', 'Scrapbooking', 'Kits', 'Bordado']
+      },
+      baby: {
+        name: 'Productos para Bebé',
+        subs: ['Pañales', 'Alimentación', 'Equipamiento', 'Dormitorio', 'Seguridad', 'Juguetes']
+      },
+      industrial: {
+        name: 'Industrial y Científico',
+        subs: ['Herramientas', 'Suministros', 'Seguridad', 'Limpieza', 'Educación', 'Laboratorio']
       }
     },
     hero: {
@@ -391,7 +463,7 @@ export const translations = {
       orderId: 'ID del Pedido',
       datePlaced: 'Fecha del Pedido',
       total: 'Total',
-      details: 'Detalles',
+      details: 'Details',
       track: 'Rastrear Envío',
       noOrders: 'Sin pedidos aún',
       noOrdersDesc: 'Cuando realices una compra, aparecerá aquí.'
