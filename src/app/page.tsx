@@ -118,7 +118,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div className="space-y-2">
               <h2 className="text-3xl md:text-4xl font-headline font-bold tracking-tight">{t.home.featuredTitle}</h2>
-              <p className="text-muted-foreground max-w-lg">
+              <p className="text-muted-foreground max-lg">
                 {t.home.featuredDesc}
               </p>
             </div>
@@ -146,30 +146,6 @@ export default function Home() {
               )}
             </div>
           )}
-        </section>
-
-        {/* Newsletter / CTA Section */}
-        <section className="py-24 bg-primary text-white overflow-hidden relative">
-          <div className="container mx-auto px-4 text-center relative z-10">
-            <div className="max-w-2xl mx-auto space-y-8">
-              <h2 className="text-4xl font-headline font-bold">{t.home.newsletterTitle}</h2>
-              <p className="text-primary-foreground/80 text-lg">
-                {t.home.newsletterSubtitle}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                <input 
-                  type="email" 
-                  placeholder={t.home.emailPlaceholder}
-                  className="flex-1 px-6 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 backdrop-blur"
-                />
-                <Button className="bg-white text-primary hover:bg-slate-100 rounded-xl px-8 py-3 h-auto font-bold">
-                  {t.home.subscribe}
-                </Button>
-              </div>
-            </div>
-          </div>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
         </section>
       </main>
 
