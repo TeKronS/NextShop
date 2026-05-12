@@ -17,11 +17,21 @@ import { Product } from '@/lib/types';
 export default function ProductsPage() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category');
-  const [searchTerm, setSearchTerm] = useState('');
+  const initialSearch = searchParams.get('search');
+  
+  const [searchTerm, setSearchTerm] = useState(initialSearch || '');
   const [activeCategory, setActiveCategory] = useState(initialCategory || 'All');
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
+
+  // Update searchTerm if query param changes
+  useEffect(() => {
+    const s = searchParams.get('search');
+    if (s !== null) {
+      setSearchTerm(s);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
@@ -31,6 +41,9 @@ export default function ProductsPage() {
         ...doc.data()
       })) as Product[];
       setProducts(prods);
+      setLoading(false);
+    }, (error) => {
+      console.error("Error al cargar productos:", error);
       setLoading(false);
     });
 

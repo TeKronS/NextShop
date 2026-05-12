@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ShoppingCart, User, Search, Menu, X, Globe, LucideIcon, Rocket, ShoppingBag, Zap, Package, LogOut, PackageSearch, LogIn, PlusCircle, LayoutGrid } from 'lucide-react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/components/cart/cart-context';
@@ -29,10 +30,11 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export function Header() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const router = useRouter();
   const { cartCount } = useCart();
   const { language, setLanguage, t } = useLanguage();
   const { user, logout } = useAuth();
+  const [searchQuery, setSearchQuery] = useState('');
   
   const LogoIcon = iconMap[BrandConfig.logo.iconName] || Rocket;
 
@@ -41,9 +43,16 @@ export function Header() {
     return user.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-border/40">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
         {/* Mobile Menu */}
         <div className="md:hidden">
           <Sheet>
@@ -77,41 +86,37 @@ export function Header() {
         </div>
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center gap-2 group shrink-0">
           <div className="bg-primary p-2 rounded-xl group-hover:rotate-12 transition-transform">
             <LogoIcon className="h-6 w-6 text-white" />
           </div>
-          <span className="text-2xl font-headline font-bold text-foreground tracking-tight hidden sm:block">
+          <span className="text-2xl font-headline font-bold text-foreground tracking-tight hidden lg:block">
             {BrandConfig.name}
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8 ml-8">
+        <nav className="hidden md:flex items-center gap-6 shrink-0">
           <Link href="/products" className="text-sm font-medium hover:text-primary transition-colors">{t.nav.shop}</Link>
           <Link href="/products/new" className="flex items-center gap-2 text-sm font-bold text-accent hover:text-accent/80 transition-colors">
             <PlusCircle className="h-4 w-4" />
-            {t.nav.sell}
+            <span className="hidden lg:inline">{t.nav.sell}</span>
           </Link>
         </nav>
 
-        {/* Actions */}
-        <div className="flex items-center gap-2 sm:gap-4 flex-1 justify-end">
-          <div className={`hidden sm:flex items-center relative transition-all duration-300 ${isSearchOpen ? 'w-64' : 'w-10'}`}>
-            <Input 
-              placeholder={t.catalog.search} 
-              className={`pr-10 transition-opacity duration-300 ${isSearchOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-            />
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="absolute right-0"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
-              {isSearchOpen ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
-            </Button>
-          </div>
+        {/* Search Bar - Main Feature */}
+        <form onSubmit={handleSearchSubmit} className="flex-1 max-w-md relative hidden sm:block">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={t.catalog.search} 
+            className="w-full pl-10 bg-slate-100/50 border-none focus-visible:ring-primary rounded-xl"
+          />
+        </form>
 
+        {/* Actions */}
+        <div className="flex items-center gap-2 sm:gap-4 shrink-0">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" className="flex items-center gap-1 font-bold h-10 px-2" title="Change Language">
