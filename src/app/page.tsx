@@ -1,19 +1,24 @@
 
 "use client";
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { ProductCard } from '@/components/product/product-card';
 import { Button } from '@/components/ui/button';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useLanguage } from '@/components/language/language-context';
 import { ArrowRight, Star, ShieldCheck, Zap, Loader2, Sparkles, ShoppingBag } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { Product } from '@/lib/types';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -45,7 +50,7 @@ export default function Home() {
       <main className="flex-1">
         {/* Page Title Section */}
         <section className="pt-16 pb-8 container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-8 border-b border-border/40 pb-8">
+          <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12 border-b border-border/40 pb-8">
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest">
                 <Sparkles className="h-3 w-3" />
@@ -65,37 +70,49 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Featured Products Grid */}
+          {/* Featured Products Carousel */}
           {loading ? (
             <div className="flex flex-col items-center justify-center py-32 space-y-4">
               <Loader2 className="h-10 w-10 animate-spin text-primary" />
               <p className="text-sm text-muted-foreground animate-pulse">{t.common.loading}</p>
             </div>
+          ) : featuredProducts.length > 0 ? (
+            <div className="relative px-12">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+                className="w-full"
+              >
+                <CarouselContent>
+                  {featuredProducts.map((product) => (
+                    <CarouselItem key={product.id} className="basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 p-4">
+                      <ProductCard product={product} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden md:flex -left-12 h-12 w-12 border-2 border-primary/20 text-primary hover:bg-primary hover:text-white transition-all" />
+                <CarouselNext className="hidden md:flex -right-12 h-12 w-12 border-2 border-primary/20 text-primary hover:bg-primary hover:text-white transition-all" />
+              </Carousel>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {featuredProducts.length > 0 ? (
-                featuredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))
-              ) : (
-                <div className="col-span-full py-32 text-center bg-white rounded-3xl border border-dashed border-slate-300 space-y-6">
-                  <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-300">
-                    <ShoppingBag className="h-10 w-10" />
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold">No hay productos destacados</h3>
-                    <p className="text-muted-foreground max-w-xs mx-auto">Sé el primero en publicar un producto para que aparezca aquí.</p>
-                  </div>
-                  <Link href="/products/new">
-                    <Button variant="outline" className="rounded-xl">{t.nav.sell}</Button>
-                  </Link>
-                </div>
-              )}
+            <div className="py-32 text-center bg-white rounded-3xl border border-dashed border-slate-300 space-y-6">
+              <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-300">
+                <ShoppingBag className="h-10 w-10" />
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold">No hay productos destacados</h3>
+                <p className="text-muted-foreground max-w-xs mx-auto">Sé el primero en publicar un producto para que aparezca aquí.</p>
+              </div>
+              <Link href="/products/new">
+                <Button variant="outline" className="rounded-xl">{t.nav.sell}</Button>
+              </Link>
             </div>
           )}
         </section>
 
-        {/* Features Row - Now placed more discreetly below products */}
+        {/* Features Row */}
         <section className="py-16 bg-white/50 border-y border-border/40 mt-16">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">

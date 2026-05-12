@@ -125,7 +125,7 @@ export const translations = {
       qualityDesc: 'Curated selection of high-quality gadgets.'
     },
     home: {
-      featuredTitle: 'Featured Collections',
+      featuredTitle: 'Featured Products',
       featuredDesc: 'Discover our most popular products chosen by our community of innovators and creators.',
       browseAll: 'Browse All Products',
       newsletterTitle: `Join the ${BrandConfig.name} Community`,
@@ -400,7 +400,7 @@ export const translations = {
       qualityDesc: 'Selección curada de gadgets de alta calidad.'
     },
     home: {
-      featuredTitle: 'Colecciones Destacadas',
+      featuredTitle: 'Productos Destacados',
       featuredDesc: 'Descubre nuestros productos más populares elegidos por nuestra comunidad de innovadores y creadores.',
       browseAll: 'Ver todos los productos',
       newsletterTitle: `Únete a la Comunidad ${BrandConfig.name}`,
