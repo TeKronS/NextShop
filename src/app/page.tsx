@@ -26,7 +26,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Traer los últimos 12 productos publicados para dar más volumen a la principal
+    // Traer los últimos 12 productos publicados
     const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(12));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const prods = snapshot.docs.map(doc => ({
@@ -48,36 +48,33 @@ export default function Home() {
       <Header />
       
       <main className="flex-1">
-        {/* Page Title Section */}
-        <section className="pt-16 pb-8 container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12 border-b border-border/40 pb-8">
-            <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest">
+        {/* Featured Products Section - Now at the very top */}
+        <section className="pt-8 pb-12 container mx-auto px-4">
+          <div className="flex flex-row justify-between items-center mb-6 border-b border-border/40 pb-4">
+            <div className="flex items-center gap-3">
+              <h2 className="text-xl md:text-2xl font-headline font-bold tracking-tight">
+                {t.home.featuredTitle}
+              </h2>
+              <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
                 <Sparkles className="h-3 w-3" />
                 {t.hero.badge}
               </div>
-              <h1 className="text-4xl md:text-5xl font-headline font-bold tracking-tight">
-                {t.home.featuredTitle}
-              </h1>
-              <p className="text-muted-foreground max-w-2xl">
-                {t.home.featuredDesc}
-              </p>
             </div>
             <Link href="/products">
-              <Button className="rounded-xl h-12 px-6 gap-2 shadow-lg hover:shadow-xl transition-all">
-                {t.home.browseAll} <ArrowRight className="h-4 w-4" />
+              <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 font-bold gap-1 p-0 h-auto">
+                {t.home.browseAll} <ArrowRight className="h-3 w-3" />
               </Button>
             </Link>
           </div>
 
           {/* Featured Products Carousel */}
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-32 space-y-4">
-              <Loader2 className="h-10 w-10 animate-spin text-primary" />
-              <p className="text-sm text-muted-foreground animate-pulse">{t.common.loading}</p>
+            <div className="flex flex-col items-center justify-center py-20 space-y-4">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <p className="text-xs text-muted-foreground animate-pulse">{t.common.loading}</p>
             </div>
           ) : featuredProducts.length > 0 ? (
-            <div className="relative px-12">
+            <div className="relative px-4 sm:px-12">
               <Carousel
                 opts={{
                   align: "start",
@@ -87,23 +84,23 @@ export default function Home() {
               >
                 <CarouselContent>
                   {featuredProducts.map((product) => (
-                    <CarouselItem key={product.id} className="basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 p-4">
+                    <CarouselItem key={product.id} className="basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 p-2 sm:p-4">
                       <ProductCard product={product} />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="hidden md:flex -left-12 h-12 w-12 border-2 border-primary/20 text-primary hover:bg-primary hover:text-white transition-all" />
-                <CarouselNext className="hidden md:flex -right-12 h-12 w-12 border-2 border-primary/20 text-primary hover:bg-primary hover:text-white transition-all" />
+                <CarouselPrevious className="hidden md:flex -left-6 h-10 w-10 border-2 border-primary/20 text-primary hover:bg-primary hover:text-white transition-all shadow-md" />
+                <CarouselNext className="hidden md:flex -right-6 h-10 w-10 border-2 border-primary/20 text-primary hover:bg-primary hover:text-white transition-all shadow-md" />
               </Carousel>
             </div>
           ) : (
-            <div className="py-32 text-center bg-white rounded-3xl border border-dashed border-slate-300 space-y-6">
-              <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-300">
-                <ShoppingBag className="h-10 w-10" />
+            <div className="py-20 text-center bg-white rounded-3xl border border-dashed border-slate-300 space-y-6">
+              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-300">
+                <ShoppingBag className="h-8 w-8" />
               </div>
               <div className="space-y-2">
-                <h3 className="text-xl font-bold">No hay productos destacados</h3>
-                <p className="text-muted-foreground max-w-xs mx-auto">Sé el primero en publicar un producto para que aparezca aquí.</p>
+                <h3 className="text-lg font-bold">No hay productos aún</h3>
+                <p className="text-sm text-muted-foreground max-w-xs mx-auto">Sé el primero en publicar un producto para que aparezca aquí.</p>
               </div>
               <Link href="/products/new">
                 <Button variant="outline" className="rounded-xl">{t.nav.sell}</Button>
@@ -113,34 +110,34 @@ export default function Home() {
         </section>
 
         {/* Features Row */}
-        <section className="py-16 bg-white/50 border-y border-border/40 mt-16">
+        <section className="py-12 bg-white border-y border-border/40">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <div className="flex gap-4 items-center justify-center p-6 bg-white rounded-2xl shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="flex gap-4 items-center p-4">
                 <div className="p-3 bg-primary/10 rounded-2xl text-primary">
-                  <ShieldCheck className="h-6 w-6" />
+                  <ShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-headline font-bold text-sm uppercase tracking-wider">{t.features.secure}</h3>
-                  <p className="text-xs text-muted-foreground">{t.features.secureDesc}</p>
+                  <h3 className="font-headline font-bold text-xs uppercase tracking-wider">{t.features.secure}</h3>
+                  <p className="text-[10px] text-muted-foreground">{t.features.secureDesc}</p>
                 </div>
               </div>
-              <div className="flex gap-4 items-center justify-center p-6 bg-white rounded-2xl shadow-sm">
+              <div className="flex gap-4 items-center p-4">
                 <div className="p-3 bg-accent/10 rounded-2xl text-accent">
-                  <Zap className="h-6 w-6" />
+                  <Zap className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-headline font-bold text-sm uppercase tracking-wider">{t.features.fast}</h3>
-                  <p className="text-xs text-muted-foreground">{t.features.fastDesc}</p>
+                  <h3 className="font-headline font-bold text-xs uppercase tracking-wider">{t.features.fast}</h3>
+                  <p className="text-[10px] text-muted-foreground">{t.features.fastDesc}</p>
                 </div>
               </div>
-              <div className="flex gap-4 items-center justify-center p-6 bg-white rounded-2xl shadow-sm">
+              <div className="flex gap-4 items-center p-4">
                 <div className="p-3 bg-primary/10 rounded-2xl text-primary">
-                  <Star className="h-6 w-6" />
+                  <Star className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-headline font-bold text-sm uppercase tracking-wider">{t.features.quality}</h3>
-                  <p className="text-xs text-muted-foreground">{t.features.qualityDesc}</p>
+                  <h3 className="font-headline font-bold text-xs uppercase tracking-wider">{t.features.quality}</h3>
+                  <p className="text-[10px] text-muted-foreground">{t.features.qualityDesc}</p>
                 </div>
               </div>
             </div>
