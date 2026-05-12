@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useSearchParams } from 'next/navigation';
@@ -7,7 +6,7 @@ import { Footer } from '@/components/layout/footer';
 import { ProductCard } from '@/components/product/product-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Filter, Search, Loader2, X, ArrowUpDown } from 'lucide-react';
+import { Filter, Search, Loader2, X, ArrowUpDown, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useState, useMemo, useEffect } from 'react';
 import { useLanguage } from '@/components/language/language-context';
@@ -24,6 +23,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 type SortOption = 'newest' | 'price-asc' | 'price-desc' | 'name-asc';
 
@@ -39,6 +45,7 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState<SortOption>('newest');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   useEffect(() => {
     const s = searchParams.get('search');
@@ -109,19 +116,98 @@ export default function ProductsPage() {
     setPriceRange([0, Math.ceil(maxPrice)]);
   };
 
+  const FilterContent = () => (
+    <div className="space-y-10">
+      <div className="space-y-6">
+        <h3 className="font-headline font-bold text-lg flex items-center gap-2 text-foreground">
+          <Filter className="h-4 w-4 text-primary" />
+          {t.catalog.categories}
+        </h3>
+        <div className="flex flex-col gap-2">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => {
+                setActiveCategory(cat);
+                if (isMobileFilterOpen) setIsMobileFilterOpen(false);
+              }}
+              className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all shadow-sm flex items-center justify-between group ${
+                activeCategory === cat 
+                  ? 'bg-primary text-white font-bold' 
+                  : 'bg-white text-muted-foreground hover:bg-slate-50 border border-transparent hover:border-border'
+              }`}
+            >
+              {cat}
+              {activeCategory === cat && <ChevronRight className="h-3 w-3" />}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-6 pt-6 border-t">
+        <div className="flex justify-between items-center">
+          <h3 className="font-headline font-bold text-lg text-foreground">{t.catalog.priceRange}</h3>
+          <Badge variant="outline" className="rounded-lg bg-white border border-border shadow-sm text-xs px-2">
+            ${priceRange[0]} - ${priceRange[1]}
+          </Badge>
+        </div>
+        <div className="px-2">
+          <Slider
+            defaultValue={[0, priceRange[1]]}
+            max={Math.max(...products.map(p => p.price), 2000)}
+            step={10}
+            value={[priceRange[0], priceRange[1]]}
+            onValueChange={(val) => setPriceRange(val as [number, number])}
+            className="py-4"
+          />
+        </div>
+      </div>
+
+      <Button 
+        variant="ghost" 
+        onClick={() => {
+          resetFilters();
+          if (isMobileFilterOpen) setIsMobileFilterOpen(false);
+        }}
+        className="w-full justify-start text-muted-foreground hover:text-destructive hover:bg-destructive/5 rounded-xl gap-2 h-12"
+      >
+        <X className="h-4 w-4" />
+        {t.catalog.clearFilters}
+      </Button>
+    </div>
+  );
+
   return (
     <div className="flex flex-col min-h-screen bg-[#f8fafc]">
       <Header />
       <main className="flex-1 container mx-auto px-4 py-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
           <div className="space-y-1">
-            <h1 className="text-4xl font-headline font-bold tracking-tight">{t.catalog.title}</h1>
+            <h1 className="text-4xl font-headline font-bold tracking-tight text-foreground">{t.catalog.title}</h1>
             <p className="text-muted-foreground text-sm">
               {loading ? t.common.loading : t.catalog.results.replace('{count}', filteredAndSortedProducts.length.toString())}
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-3 w-full md:w-auto">
+          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            {/* Mobile Filter Button */}
+            <div className="lg:hidden">
+              <Sheet open={isMobileFilterOpen} onOpenChange={setIsMobileFilterOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="rounded-xl flex items-center gap-2 bg-white border-none shadow-sm h-10 px-4">
+                    <Filter className="h-4 w-4 text-primary" />
+                    <span>{t.catalog.sortBy}</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-[280px] p-6 overflow-y-auto">
+                  <SheetHeader className="mb-6">
+                    <SheetTitle className="text-left font-headline font-bold text-xl">{t.catalog.clearFilters}</SheetTitle>
+                  </SheetHeader>
+                  <FilterContent />
+                </SheetContent>
+              </Sheet>
+            </div>
+
             <div className="relative flex-1 sm:flex-none sm:w-64">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input 
@@ -154,57 +240,11 @@ export default function ProductsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12">
-          {/* Sidebar Filters - Left side 280px */}
-          <aside className="space-y-10">
-            <div className="space-y-6">
-              <h3 className="font-headline font-bold text-lg flex items-center gap-2">
-                <Filter className="h-4 w-4 text-primary" />
-                {t.catalog.categories}
-              </h3>
-              <div className="flex flex-wrap lg:flex-col gap-2">
-                {categories.map(cat => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all shadow-sm ${
-                      activeCategory === cat 
-                        ? 'bg-primary text-white font-bold' 
-                        : 'bg-white text-muted-foreground hover:bg-slate-50'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
+          {/* Desktop Sidebar Filters - Visible only on lg+ */}
+          <aside className="hidden lg:block">
+            <div className="sticky top-24">
+              <FilterContent />
             </div>
-
-            <div className="space-y-6 pt-6 border-t">
-              <div className="flex justify-between items-center">
-                <h3 className="font-headline font-bold text-lg">{t.catalog.priceRange}</h3>
-                <Badge variant="outline" className="rounded-lg bg-white border-none shadow-sm">
-                  ${priceRange[0]} - ${priceRange[1]}
-                </Badge>
-              </div>
-              <div className="px-2">
-                <Slider
-                  defaultValue={[0, priceRange[1]]}
-                  max={Math.max(...products.map(p => p.price), 2000)}
-                  step={10}
-                  value={[priceRange[0], priceRange[1]]}
-                  onValueChange={(val) => setPriceRange(val as [number, number])}
-                  className="py-4"
-                />
-              </div>
-            </div>
-
-            <Button 
-              variant="ghost" 
-              onClick={resetFilters}
-              className="w-full justify-start text-muted-foreground hover:text-destructive hover:bg-destructive/5 rounded-xl gap-2 h-12"
-            >
-              <X className="h-4 w-4" />
-              {t.catalog.clearFilters}
-            </Button>
           </aside>
 
           {/* Product Grid - Right side */}
