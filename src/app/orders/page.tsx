@@ -38,6 +38,9 @@ export default function OrdersPage() {
       }));
       setOrders(fetchedOrders);
       setLoading(false);
+    }, (error) => {
+      console.error("Error en el escuchador de pedidos:", error);
+      setLoading(false);
     });
 
     return () => unsubscribe();

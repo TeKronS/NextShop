@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Package, Users, BarChart3, ArrowRight, Loader2 } from 'lucide-react';
-import { collection, query, where, onSnapshot, getCountFromServer } from 'firebase/firestore';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/components/auth/auth-context';
 
@@ -24,6 +24,9 @@ export default function AdminDashboard() {
     const q = query(collection(db, 'products'), where('sellerId', '==', user.uid));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setProductCount(snapshot.size);
+      setLoading(false);
+    }, (error) => {
+      console.error("Error al obtener estadísticas de productos:", error);
       setLoading(false);
     });
 

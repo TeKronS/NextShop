@@ -23,8 +23,10 @@ service cloud.firestore {
 
     // Pedidos (Orders)
     match /orders/{orderId} {
-      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
-      allow create: if request.auth != null;
+      // Permitir lectura y listado si el usuario está autenticado y es el dueño del pedido
+      allow read, list: if request.auth != null && resource.data.userId == request.auth.uid;
+      // Permitir creación si el usuario está autenticado y el userId coincide con su sesión
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
     }
   }
 }

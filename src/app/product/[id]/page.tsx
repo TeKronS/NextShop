@@ -69,7 +69,6 @@ export default function ProductDetailPage() {
             if (sellerSnap.exists()) {
               setSeller(sellerSnap.data());
             } else {
-              // Mock seller if not found in users collection (for legacy samples)
               setSeller({ 
                 displayName: "Vendedor Verificado", 
                 reputation: 4.8, 
@@ -96,6 +95,8 @@ export default function ProductDetailPage() {
       );
       const unsubscribe = onSnapshot(reviewsQuery, (snapshot) => {
         setReviews(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      }, (error) => {
+        console.error("Error al obtener comentarios:", error);
       });
       return () => unsubscribe();
     }
@@ -126,7 +127,7 @@ export default function ProductDetailPage() {
         userName: user.displayName || user.email,
         text: newReview,
         createdAt: serverTimestamp(),
-        rating: 5 // Default for now
+        rating: 5 
       });
       setNewReview('');
       toast({ title: "Comentario publicado", description: "¡Gracias por tu opinión!" });
@@ -175,7 +176,6 @@ export default function ProductDetailPage() {
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-          {/* Product Image & Info (Left/Center) */}
           <div className="lg:col-span-2 space-y-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="relative aspect-square rounded-3xl overflow-hidden bg-white shadow-xl border border-white">
@@ -222,7 +222,6 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Specifications */}
             {product.specifications && Object.values(product.specifications).some(v => !!v) && (
               <div className="space-y-6">
                 <h2 className="text-2xl font-headline font-bold flex items-center gap-2">
@@ -270,7 +269,6 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {/* Comments Section */}
             <div className="space-y-8 pt-8 border-t">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-headline font-bold flex items-center gap-2">
@@ -279,7 +277,6 @@ export default function ProductDetailPage() {
                 </h2>
               </div>
 
-              {/* Add Review Form */}
               <Card className="border-none shadow-sm rounded-3xl overflow-hidden bg-white">
                 <CardContent className="p-6">
                   {user ? (
@@ -318,7 +315,6 @@ export default function ProductDetailPage() {
                 </CardContent>
               </Card>
 
-              {/* Reviews List */}
               <div className="space-y-4">
                 {reviews.length > 0 ? (
                   reviews.map((review) => (
@@ -359,7 +355,6 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Seller & Sidebar Info (Right) */}
           <div className="space-y-6">
             <Card className="border-none shadow-xl bg-white rounded-3xl overflow-hidden">
               <CardHeader className="bg-primary/5 p-6 border-b border-primary/10">
@@ -418,7 +413,6 @@ export default function ProductDetailPage() {
               </CardContent>
             </Card>
 
-            {/* Shopping Guarantees */}
             <div className="grid grid-cols-1 gap-3">
               <div className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-border/40 shadow-sm">
                 <div className="p-3 bg-green-50 rounded-xl text-green-600"><ShieldCheck className="h-6 w-6" /></div>
