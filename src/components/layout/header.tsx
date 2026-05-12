@@ -89,7 +89,6 @@ export function Header() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8 ml-8">
           <Link href="/products" className="text-sm font-medium hover:text-primary transition-colors">{t.nav.shop}</Link>
-          <Link href="/products?category=Electronics" className="text-sm font-medium hover:text-primary transition-colors">{t.nav.electronics}</Link>
           <Link href="/products/new" className="flex items-center gap-2 text-sm font-bold text-accent hover:text-accent/80 transition-colors">
             <PlusCircle className="h-4 w-4" />
             {t.nav.sell}
