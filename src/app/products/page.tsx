@@ -196,12 +196,12 @@ export default function ProductsPage() {
                 <SheetTrigger asChild>
                   <Button variant="outline" className="rounded-xl flex items-center gap-2 bg-white border-none shadow-sm h-10 px-4">
                     <Filter className="h-4 w-4 text-primary" />
-                    <span>{t.catalog.sortBy}</span>
+                    <span>{t.catalog.filter}</span>
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-[280px] p-6 overflow-y-auto">
                   <SheetHeader className="mb-6">
-                    <SheetTitle className="text-left font-headline font-bold text-xl">{t.catalog.clearFilters}</SheetTitle>
+                    <SheetTitle className="text-left font-headline font-bold text-xl">{t.catalog.filter}</SheetTitle>
                   </SheetHeader>
                   <FilterContent />
                 </SheetContent>

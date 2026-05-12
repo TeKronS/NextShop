@@ -142,7 +142,8 @@ export const translations = {
       apply: 'Apply',
       noProducts: 'No products found',
       clearFilters: 'Clear all filters',
-      sortBy: 'Sort'
+      sortBy: 'Sort',
+      filter: 'Filters'
     },
     cart: {
       title: 'Your Shopping Cart',
@@ -417,7 +418,8 @@ export const translations = {
       apply: 'Aplicar',
       noProducts: 'No se encontraron productos',
       clearFilters: 'Limpiar filtros',
-      sortBy: 'Ordenar'
+      sortBy: 'Ordenar',
+      filter: 'Filtros'
     },
     cart: {
       title: 'Tu Carrito de Compras',
