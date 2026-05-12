@@ -15,14 +15,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Package, Globe, Tag, Info, Battery, Ruler, LayoutGrid, Loader2 } from 'lucide-react';
+import { Package, Globe, Tag, Info, Battery, Ruler, LayoutGrid, Loader2, Wand2, Sparkles } from 'lucide-react';
+import { generateProductDescription } from '@/ai/flows/generate-product-description';
 
 export default function NewProductPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const { user } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -48,6 +50,46 @@ export default function NewProductPage() {
 
   const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleAIGenerate = async () => {
+    if (!formData.name || !formData.category) {
+      toast({
+        variant: "destructive",
+        title: "Faltan datos",
+        description: "Introduce al menos el nombre y la categoría para que la IA pueda ayudarte.",
+      });
+      return;
+    }
+
+    setIsGeneratingAI(true);
+    try {
+      const result = await generateProductDescription({
+        productName: formData.name,
+        category: formData.category,
+        shortDescription: `Un producto de alta calidad en la categoría ${formData.category}.`,
+        keyFeatures: [
+          formData.color ? `Color: ${formData.color}` : '',
+          formData.size ? `Tamaño: ${formData.size}` : '',
+          formData.techSpecs ? `Specs: ${formData.techSpecs}` : ''
+        ].filter(f => f !== ''),
+      });
+
+      setFormData(prev => ({ ...prev, description: result.description }));
+      toast({
+        title: "¡Magia de IA completada!",
+        description: "Se ha generado una descripción profesional para tu producto.",
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Error de IA",
+        description: "No se pudo generar la descripción en este momento.",
+      });
+    } finally {
+      setIsGeneratingAI(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -86,7 +128,7 @@ export default function NewProductPage() {
       });
 
       toast({ title: t.sell.success, description: t.sell.successDesc });
-      router.push('/products');
+      router.push('/my-products');
     } catch (error: any) {
       console.error(error);
       toast({ variant: "destructive", title: t.sell.error, description: error.message });
@@ -153,8 +195,21 @@ export default function NewProductPage() {
                 </div>
 
                 <div className="space-y-2 md:col-span-2">
-                  <Label htmlFor="description">{t.sell.description}</Label>
-                  <Textarea id="description" name="description" value={formData.description} onChange={handleInputChange} className="rounded-xl min-h-[120px]" />
+                  <div className="flex justify-between items-end mb-2">
+                    <Label htmlFor="description">{t.sell.description}</Label>
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={handleAIGenerate} 
+                      disabled={isGeneratingAI}
+                      className="text-xs h-8 gap-1.5 border-accent text-accent hover:bg-accent/5 rounded-full"
+                    >
+                      {isGeneratingAI ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}
+                      {isGeneratingAI ? "Generando..." : "Ayuda de IA"}
+                    </Button>
+                  </div>
+                  <Textarea id="description" name="description" value={formData.description} onChange={handleInputChange} className="rounded-xl min-h-[150px]" placeholder="Describe los beneficios y detalles de tu producto..." />
                 </div>
               </CardContent>
             </Card>

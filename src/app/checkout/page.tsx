@@ -7,28 +7,69 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { useCart } from '@/components/cart/cart-context';
 import { useLanguage } from '@/components/language/language-context';
+import { useAuth } from '@/components/auth/auth-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardTitle } from '@/components/ui/card';
-import { CheckCircle, CreditCard, Truck, ShieldCheck, ArrowRight, ArrowLeft } from 'lucide-react';
+import { CheckCircle, CreditCard, Truck, ShieldCheck, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 export default function CheckoutPage() {
   const { cart, cartTotal, clearCart } = useCart();
   const { t } = useLanguage();
+  const { user } = useAuth();
   const [step, setStep] = useState(1);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
-  const handleCheckoutComplete = () => {
-    toast({
-      title: t.checkout.orderPlaced,
-      description: t.checkout.orderSuccessDesc,
-    });
-    clearCart();
-    router.push('/orders');
+  const handleCheckoutComplete = async () => {
+    if (!user) {
+      toast({
+        variant: "destructive",
+        title: "Inicia sesión",
+        description: "Debes estar identificado para realizar una compra.",
+      });
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      // Guardar el pedido en Firestore
+      await addDoc(collection(db, 'orders'), {
+        userId: user.uid,
+        items: cart.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          imageUrl: item.imageUrl
+        })),
+        total: cartTotal,
+        status: 'Processing',
+        createdAt: serverTimestamp()
+      });
+
+      toast({
+        title: t.checkout.orderPlaced,
+        description: t.checkout.orderSuccessDesc,
+      });
+      clearCart();
+      router.push('/orders');
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Error al procesar",
+        description: "No pudimos completar tu pedido en este momento.",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (cart.length === 0 && step !== 3) {
@@ -65,12 +106,6 @@ export default function CheckoutPage() {
                 2
               </div>
               <span className="text-xs font-bold uppercase tracking-wider">{t.checkout.payment}</span>
-            </div>
-            <div className={`flex flex-col items-center gap-2 bg-[#f8fafc] px-4 ${step >= 3 ? 'text-primary' : 'text-muted-foreground'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${step >= 3 ? 'border-primary bg-primary text-white' : 'border-muted bg-white'}`}>
-                3
-              </div>
-              <span className="text-xs font-bold uppercase tracking-wider">{t.checkout.confirmation}</span>
             </div>
           </div>
 
@@ -151,15 +186,18 @@ export default function CheckoutPage() {
                       <Button 
                         variant="outline" 
                         className="flex-1 py-6 rounded-xl h-auto gap-2"
+                        disabled={isProcessing}
                         onClick={() => setStep(1)}
                       >
                         <ArrowLeft className="h-4 w-4" /> {t.checkout.back}
                       </Button>
                       <Button 
                         className="flex-[2] bg-primary py-6 rounded-xl h-auto text-lg gap-2"
-                        onClick={() => handleCheckoutComplete()}
+                        disabled={isProcessing}
+                        onClick={handleCheckoutComplete}
                       >
-                        {t.checkout.placeOrder} <CheckCircle className="h-5 w-5" />
+                        {isProcessing ? <Loader2 className="h-5 w-5 animate-spin" /> : <CheckCircle className="h-5 w-5" />}
+                        {isProcessing ? "Procesando..." : t.checkout.placeOrder}
                       </Button>
                     </div>
                   </div>
