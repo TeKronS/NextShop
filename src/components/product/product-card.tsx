@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { Product } from '@/lib/types';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, ArrowRight } from 'lucide-react';
+import { ShoppingCart, ArrowRight, UserCheck } from 'lucide-react';
 import { useCart } from '@/components/cart/cart-context';
 import { useLanguage } from '@/components/language/language-context';
+import { useAuth } from '@/components/auth/auth-context';
 import { useToast } from '@/hooks/use-toast';
 
 interface ProductCardProps {
@@ -16,12 +17,25 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
+  const { user } = useAuth();
   const { toast } = useToast();
   const { t } = useLanguage();
+
+  const isOwner = user && product.sellerId === user.uid;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    if (isOwner) {
+      toast({
+        variant: "destructive",
+        title: "Acción no permitida",
+        description: "No puedes comprar tus propios productos.",
+      });
+      return;
+    }
+
     addToCart(product);
     toast({
       title: t.common.addedToCart,
@@ -67,10 +81,24 @@ export function ProductCard({ product }: ProductCardProps) {
       <CardFooter className="p-5 pt-0">
         <Button 
           onClick={handleAddToCart}
-          className="w-full bg-primary hover:bg-primary/90 text-white font-medium gap-2 group/btn"
+          disabled={isOwner}
+          className={`w-full font-medium gap-2 group/btn ${
+            isOwner 
+            ? 'bg-slate-100 text-slate-400 hover:bg-slate-100' 
+            : 'bg-primary hover:bg-primary/90 text-white'
+          }`}
         >
-          <ShoppingCart className="h-4 w-4 group-hover/btn:animate-bounce" />
-          {t.common.addToCart}
+          {isOwner ? (
+            <>
+              <UserCheck className="h-4 w-4" />
+              Tu Producto
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="h-4 w-4 group-hover/btn:animate-bounce" />
+              {t.common.addToCart}
+            </>
+          )}
         </Button>
       </CardFooter>
     </Card>

@@ -29,7 +29,8 @@ import {
   User,
   MessageSquare,
   Send,
-  ThumbsUp
+  ThumbsUp,
+  UserCheck
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -102,8 +103,19 @@ export default function ProductDetailPage() {
     }
   }, [id]);
 
+  const isOwner = user && product?.sellerId === user.uid;
+
   const handleAddToCart = () => {
     if (product) {
+      if (isOwner) {
+        toast({
+          variant: "destructive",
+          title: "Acción no permitida",
+          description: "No puedes comprar tus propios productos.",
+        });
+        return;
+      }
+
       addToCart(product);
       toast({
         title: t.common.addedToCart,
@@ -213,11 +225,24 @@ export default function ProductDetailPage() {
                 <Button 
                   onClick={handleAddToCart}
                   size="lg" 
-                  className="w-full bg-primary hover:bg-primary/90 text-white py-8 text-xl rounded-2xl h-auto gap-3 shadow-xl"
-                  disabled={product.stock <= 0}
+                  className={`w-full py-8 text-xl rounded-2xl h-auto gap-3 shadow-xl ${
+                    isOwner 
+                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed hover:bg-slate-100' 
+                    : 'bg-primary hover:bg-primary/90 text-white'
+                  }`}
+                  disabled={product.stock <= 0 || isOwner}
                 >
-                  <ShoppingCart className="h-6 w-6" />
-                  {t.common.addToCart}
+                  {isOwner ? (
+                    <>
+                      <UserCheck className="h-6 w-6" />
+                      Es Tu Producto
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="h-6 w-6" />
+                      {t.common.addToCart}
+                    </>
+                  )}
                 </Button>
               </div>
             </div>
@@ -372,6 +397,7 @@ export default function ProductDetailPage() {
                   </Avatar>
                   <div className="space-y-1">
                     <h3 className="font-bold text-lg">{seller?.displayName || 'Vendedor Verificado'}</h3>
+                    {isOwner && <Badge className="bg-accent text-white border-none text-[10px]">Eres Tú</Badge>}
                     <div className="flex items-center gap-2 text-yellow-500">
                       <Star className="h-4 w-4 fill-current" />
                       <span className="text-sm font-bold">{seller?.reputation || '4.9'}</span>
