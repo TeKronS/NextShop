@@ -7,7 +7,7 @@ import { Footer } from '@/components/layout/footer';
 import { ProductCard } from '@/components/product/product-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Filter, SlidersHorizontal, Search, Loader2, X, ArrowUpDown } from 'lucide-react';
+import { Filter, Search, Loader2, X, ArrowUpDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useState, useMemo, useEffect } from 'react';
 import { useLanguage } from '@/components/language/language-context';
@@ -40,7 +40,6 @@ export default function ProductsPage() {
   const [sortBy, setSortBy] = useState<SortOption>('newest');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
 
-  // Sincronizar búsqueda desde la URL
   useEffect(() => {
     const s = searchParams.get('search');
     if (s !== null) setSearchTerm(s);
@@ -58,7 +57,6 @@ export default function ProductsPage() {
       setProducts(prods);
       setLoading(false);
       
-      // Ajustar rango de precio máximo basado en productos reales
       if (prods.length > 0) {
         const maxPrice = Math.max(...prods.map(p => p.price));
         setPriceRange(prev => [prev[0], Math.ceil(maxPrice)]);
@@ -85,7 +83,6 @@ export default function ProductsPage() {
       return matchesCategory && matchesSearch && matchesPrice;
     });
 
-    // Aplicar ordenamiento
     switch (sortBy) {
       case 'price-asc':
         result.sort((a, b) => a.price - b.price);
@@ -98,8 +95,6 @@ export default function ProductsPage() {
         break;
       case 'newest':
       default:
-        // Ya vienen ordenados por fecha desde Firestore, pero por si acaso:
-        // result.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
         break;
     }
 
@@ -118,7 +113,6 @@ export default function ProductsPage() {
     <div className="flex flex-col min-h-screen bg-[#f8fafc]">
       <Header />
       <main className="flex-1 container mx-auto px-4 py-12">
-        {/* Top bar with stats and sorting */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
           <div className="space-y-1">
             <h1 className="text-4xl font-headline font-bold tracking-tight">{t.catalog.title}</h1>
@@ -159,10 +153,9 @@ export default function ProductsPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-          {/* Sidebar Filters */}
-          <aside className="lg:col-span-1 space-y-10">
-            {/* Category Filter */}
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12">
+          {/* Sidebar Filters - Left side 280px */}
+          <aside className="space-y-10">
             <div className="space-y-6">
               <h3 className="font-headline font-bold text-lg flex items-center gap-2">
                 <Filter className="h-4 w-4 text-primary" />
@@ -185,7 +178,6 @@ export default function ProductsPage() {
               </div>
             </div>
 
-            {/* Price Range Filter */}
             <div className="space-y-6 pt-6 border-t">
               <div className="flex justify-between items-center">
                 <h3 className="font-headline font-bold text-lg">{t.catalog.priceRange}</h3>
@@ -205,7 +197,6 @@ export default function ProductsPage() {
               </div>
             </div>
 
-            {/* Clear Filters Button */}
             <Button 
               variant="ghost" 
               onClick={resetFilters}
@@ -216,8 +207,8 @@ export default function ProductsPage() {
             </Button>
           </aside>
 
-          {/* Product Grid */}
-          <div className="lg:col-span-3">
+          {/* Product Grid - Right side */}
+          <div className="flex-1">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-24 space-y-4">
                 <Loader2 className="h-10 w-10 animate-spin text-primary" />
