@@ -15,8 +15,87 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Package, Globe, Tag, Info, Battery, Ruler, LayoutGrid, Loader2, Wand2, Sparkles } from 'lucide-react';
+import { Package, Globe, Tag, Info, Battery, Ruler, LayoutGrid, Loader2, Wand2, Sparkles, RefreshCcw } from 'lucide-react';
 import { generateProductDescription } from '@/ai/flows/generate-product-description';
+
+// Datos de ejemplo para la función de autocompletado aleatorio
+const SAMPLE_PRODUCTS = [
+  {
+    name: 'Smartphone Pro Max 2025',
+    category: 'Electronics',
+    subcategory: 'Smartphones',
+    price: '999.99',
+    stock: '50',
+    description: 'El teléfono más avanzado con pantalla Super Retina XDR y triple cámara de 48MP.',
+    imageUrl: 'https://picsum.photos/seed/phone1/800/600',
+    weight: '210g',
+    size: '16x7.5x0.8cm',
+    color: 'Titanium Black',
+    batteryLife: '24 hours',
+    batteryCapacity: '4500mAh',
+    techSpecs: 'CPU: A18 Bionic, RAM: 8GB, Storage: 256GB'
+  },
+  {
+    name: 'Silla Gamer Ergonómica Ultra',
+    category: 'Home & Garden',
+    subcategory: 'Furniture',
+    price: '249.50',
+    stock: '15',
+    description: 'Máximo confort para largas sesiones de juego con soporte lumbar ajustable y cuero premium.',
+    imageUrl: 'https://picsum.photos/seed/chair2/800/600',
+    weight: '18kg',
+    size: '130x65x60cm',
+    color: 'Neon Blue',
+    batteryLife: '',
+    batteryCapacity: '',
+    techSpecs: 'Material: Cold-cured foam, Reclining: 155 degrees'
+  },
+  {
+    name: 'Cámara Mirrorless 4K',
+    category: 'Electronics',
+    subcategory: 'Photography',
+    price: '1200.00',
+    stock: '5',
+    description: 'Captura cada detalle con nitidez asombrosa y video cinematográfico en resolución 4K.',
+    imageUrl: 'https://picsum.photos/seed/camera3/800/600',
+    weight: '450g',
+    size: '12x8x6cm',
+    color: 'Silver Edition',
+    batteryLife: '4 hours video',
+    batteryCapacity: '2200mAh',
+    techSpecs: 'Sensor: Full Frame, ISO: 100-51200'
+  },
+  {
+    name: 'Smartwatch Fitness Sport',
+    category: 'Electronics',
+    subcategory: 'Audio',
+    price: '199.00',
+    stock: '100',
+    description: 'Tu compañero ideal de entrenamiento con GPS integrado y monitor de frecuencia cardíaca.',
+    imageUrl: 'https://picsum.photos/seed/watch4/800/600',
+    weight: '45g',
+    size: '4x4x1cm',
+    color: 'Midnight Blue',
+    batteryLife: '7 days',
+    batteryCapacity: '350mAh',
+    techSpecs: 'Waterproof: 50m, Screen: OLED'
+  },
+  {
+    name: 'Auriculares Noise Cancelling',
+    category: 'Electronics',
+    subcategory: 'Audio',
+    price: '349.99',
+    stock: '25',
+    description: 'Aíslate del mundo con la mejor cancelación de ruido activa y sonido de alta fidelidad.',
+    imageUrl: 'https://picsum.photos/seed/audio5/800/600',
+    weight: '250g',
+    size: '18x15x7cm',
+    color: 'Cloud White',
+    batteryLife: '40 hours',
+    batteryCapacity: '1000mAh',
+    techSpecs: 'Bluetooth: 5.3, Codec: LDAC, aptX'
+  }
+];
 
 export default function NewProductPage() {
   const { t } = useLanguage();
@@ -50,6 +129,15 @@ export default function NewProductPage() {
 
   const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFillSampleData = () => {
+    const randomProduct = SAMPLE_PRODUCTS[Math.floor(Math.random() * SAMPLE_PRODUCTS.length)];
+    setFormData(randomProduct);
+    toast({
+      title: "¡Formulario Autocompletado!",
+      description: `Se han cargado los datos de: ${randomProduct.name}`,
+    });
   };
 
   const handleAIGenerate = async () => {
@@ -142,9 +230,20 @@ export default function NewProductPage() {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto space-y-8">
-          <div className="space-y-2">
-            <h1 className="text-4xl font-headline font-bold">{t.sell.title}</h1>
-            <p className="text-muted-foreground">{t.sell.subtitle}</p>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="space-y-2">
+              <h1 className="text-4xl font-headline font-bold">{t.sell.title}</h1>
+              <p className="text-muted-foreground">{t.sell.subtitle}</p>
+            </div>
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={handleFillSampleData}
+              className="rounded-xl gap-2 border-primary text-primary hover:bg-primary/5 h-12 shadow-sm"
+            >
+              <RefreshCcw className="h-4 w-4" />
+              Autocompletar con Ejemplo
+            </Button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
@@ -164,7 +263,10 @@ export default function NewProductPage() {
                 
                 <div className="space-y-2">
                   <Label>{t.sell.category} *</Label>
-                  <Select onValueChange={(val) => handleSelectChange('category', val)}>
+                  <Select 
+                    onValueChange={(val) => handleSelectChange('category', val)} 
+                    value={formData.category}
+                  >
                     <SelectTrigger className="rounded-xl">
                       <SelectValue placeholder="Select Category" />
                     </SelectTrigger>
