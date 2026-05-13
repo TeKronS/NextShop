@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Filter, Search, Loader2, X, ArrowUpDown, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, Suspense } from 'react';
 import { useLanguage } from '@/components/language/language-context';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -33,7 +33,7 @@ import {
 
 type SortOption = 'newest' | 'price-asc' | 'price-desc' | 'name-asc';
 
-export default function ProductsPage() {
+function ProductsContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category');
   const initialSearch = searchParams.get('search');
@@ -190,7 +190,6 @@ export default function ProductsPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-            {/* Mobile Filter Button */}
             <div className="lg:hidden">
               <Sheet open={isMobileFilterOpen} onOpenChange={setIsMobileFilterOpen}>
                 <SheetTrigger asChild>
@@ -240,14 +239,12 @@ export default function ProductsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-12">
-          {/* Desktop Sidebar Filters - Visible only on lg+ */}
           <aside className="hidden lg:block">
             <div className="sticky top-24">
               <FilterContent />
             </div>
           </aside>
 
-          {/* Product Grid - Right side */}
           <div className="flex-1">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-24 space-y-4">
@@ -281,5 +278,17 @@ export default function ProductsPage() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-col min-h-screen items-center justify-center bg-[#f8fafc]">
+        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+      </div>
+    }>
+      <ProductsContent />
+    </Suspense>
   );
 }
