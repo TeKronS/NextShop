@@ -1,45 +1,45 @@
-# NextShop - Premium E-commerce Platform
+# NextShop - Premium AI-Powered E-commerce
 
-NextShop is a modern, high-performance e-commerce marketplace built with a cutting-edge tech stack. It offers a seamless experience for both buyers and sellers, featuring AI-powered tools and real-time inventory management.
+NextShop is a high-performance, full-stack e-commerce marketplace built to demonstrate the power of modern web technologies. It combines a minimalist aesthetic with robust functionality, focusing on scalability, real-time data, and Generative AI integration.
 
-## 🚀 Key Features
+## 🌟 Project Highlights
 
-### 🛒 For Buyers
-- **Dynamic Product Catalog**: Real-time listing with advanced filtering by price, category, and intelligent search.
-- **Interactive Product Details**: Deep-dive into specifications, high-quality image previews, and seller reputation tracking.
-- **Social Proof**: Real-time review and rating system integrated with individual products.
-- **Seamless Checkout**: Multi-step, secure checkout process with simulated payment processing and order tracking.
-- **Multi-language Support**: Full internationalization (English/Spanish) for a global shopping experience.
+### 🤖 Generative AI Integration
+- **AI Copywriter**: Integrated with Google Gemini via Genkit to automatically generate compelling, SEO-friendly product descriptions, saving time for sellers and improving conversion rates.
 
-### 💼 For Sellers
-- **Simplified Publishing**: Easy-to-use interface to list products with detailed technical specifications.
-- **AI Description Assistant**: Integration with Google Gemini (Genkit) to automatically generate professional, SEO-friendly product descriptions from basic features.
-- **Inventory Management**: Real-time dashboard to track published items, stock levels, and sales performance.
-- **Admin Dashboard**: Centralized hub for sellers to monitor metrics and manage their catalog.
+### ⚡ Real-Time Infrastructure
+- **Live Catalog**: Real-time product listing and inventory management using Firebase Firestore.
+- **Social Proof**: A live review system where customers can share feedback, instantly visible to all users.
+
+### 🎨 Modern UI/UX
+- **Responsive Architecture**: A fluid design that adapts from desktop (fixed 280px filter sidebar) to mobile (slide-over filter sheets).
+- **Professional Components**: Built with ShadCN UI and Tailwind CSS, featuring interactive carousels, accessible forms, and optimized images.
+
+### 🔐 Secure & Scalable
+- **Firebase Auth**: Secure authentication flow supporting both Google Sign-In and traditional Email/Password methods.
+- **Performance**: Leverages Next.js 15 Server Components and Suspense boundaries for fast initial loads and optimized SEO.
 
 ## 🛠 Tech Stack
 
-- **Frontend**: [Next.js 15](https://nextjs.org/) (App Router), [React 19](https://react.dev/), [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/), [ShadCN UI](https://ui.shadcn.com/)
-- **Backend/Database**: [Firebase](https://firebase.google.com/) (Firestore for real-time data, Firebase Auth for secure login)
-- **Generative AI**: [Google Genkit](https://firebase.google.com/docs/genkit) (Gemini 2.5 Flash)
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [ShadCN UI](https://ui.shadcn.com/)
+- **Backend/DB**: [Firebase Firestore](https://firebase.google.com/docs/firestore)
+- **Auth**: [Firebase Authentication](https://firebase.google.com/docs/auth)
+- **AI Engine**: [Google Genkit](https://firebase.google.com/docs/genkit) (Gemini 2.5 Flash)
 - **Icons**: [Lucide React](https://lucide.dev/)
 
-## 📂 Project Structure
+## 🚀 Key Features
 
-- `src/app/`: Next.js App Router pages and layouts.
-- `src/components/`: Reusable UI components (ShadCN) and layout elements (Header, Footer).
-- `src/ai/`: Genkit flow definitions and AI prompt configurations.
-- `src/lib/`: Core utilities, Firebase configuration, and global translation dictionaries.
-- `src/hooks/`: Custom React hooks for state management and UI interactions.
+### For Buyers
+- **Intuitive Search**: Global search bar with real-time filtering.
+- **Smart Catalog**: Advanced filtering by price ranges and categories.
+- **Seamless Checkout**: Multi-step secure checkout process with order history tracking.
 
-## 🚦 Getting Started
-
-1. **Clone the repository**
-2. **Install dependencies**: `npm install`
-3. **Configure environment variables**: Create a `.env` file with your Firebase and Google AI API keys.
-4. **Run the development server**: `npm run dev`
-5. **Open [http://localhost:9002](http://localhost:9002)** in your browser.
+### For Sellers
+- **Inventory Dashboard**: Real-time stats on sales, published products, and views.
+- **Product Management**: Easy-to-use interface for listing items with technical specifications.
+- **AI Assistant**: Specialized tool to "craft magic" descriptions based on minimal input.
 
 ---
-© 2025 NextShop E-commerce S.L. All rights reserved.
+*Developed as a high-performance prototype for the modern web.*
