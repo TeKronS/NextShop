@@ -21,13 +21,13 @@ NextShop is a high-performance, full-stack e-commerce marketplace built to demon
 
 ## 🛠 Tech Stack
 
-- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [ShadCN UI](https://ui.shadcn.com/)
-- **Backend/DB**: [Firebase Firestore](https://firebase.google.com/docs/firestore)
-- **Auth**: [Firebase Authentication](https://firebase.google.com/docs/auth)
-- **AI Engine**: [Google Genkit](https://firebase.google.com/docs/genkit) (Gemini 2.5 Flash)
-- **Icons**: [Lucide React](https://lucide.dev/)
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS & ShadCN UI
+- **Backend/DB**: Firebase Firestore
+- **Auth**: Firebase Authentication
+- **AI Engine**: Google Genkit (Gemini 2.5 Flash)
+- **Icons**: Lucide React
 
 ## 🚀 Key Features
 
