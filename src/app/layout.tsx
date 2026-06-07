@@ -7,8 +7,27 @@ import { AuthProvider } from '@/components/auth/auth-context';
 import { BrandConfig } from '@/lib/brand-config';
 
 export const metadata: Metadata = {
-  title: `${BrandConfig.name} | Your Premium E-commerce Destination`,
+  title: {
+    default: `${BrandConfig.name} | Premium AI-Powered E-commerce`,
+    template: `%s | ${BrandConfig.name}`
+  },
   description: BrandConfig.description,
+  keywords: ["Next.js", "React", "E-commerce", "AI", "Genkit", "TailwindCSS", "Firebase"],
+  authors: [{ name: "NextShop Team" }],
+  creator: "NextShop Professional Platform",
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+    url: "https://nextshop-demo.vercel.app",
+    title: BrandConfig.name,
+    description: BrandConfig.description,
+    siteName: BrandConfig.name,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: BrandConfig.name,
+    description: BrandConfig.description,
+  },
 };
 
 export default function RootLayout({
