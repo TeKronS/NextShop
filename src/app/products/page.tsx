@@ -7,7 +7,6 @@ import { ProductCard } from '@/components/product/product-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Filter, Search, Loader2, X, ArrowUpDown, ChevronRight } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 import { useState, useMemo, useEffect, Suspense } from 'react';
 import { useLanguage } from '@/components/language/language-context';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
@@ -109,7 +108,6 @@ function ProductsContent() {
   }, [activeCategory, searchTerm, priceRange, sortBy, products]);
 
   const resetFilters = () => {
-    setSearchTerm('');
     setActiveCategory('All');
     setSortBy('newest');
     const maxPrice = products.length > 0 ? Math.max(...products.map(p => p.price)) : 2000;
@@ -131,10 +129,10 @@ function ProductsContent() {
                 setActiveCategory(cat);
                 if (isMobileFilterOpen) setIsMobileFilterOpen(false);
               }}
-              className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all shadow-sm flex items-center justify-between group ${
+              className={`text-left px-4 py-2.5 rounded-xl text-sm transition-all shadow-sm flex items-center justify-between group border border-transparent ${
                 activeCategory === cat 
-                  ? 'bg-primary text-white font-bold' 
-                  : 'bg-white text-muted-foreground hover:bg-slate-50 border border-transparent hover:border-border'
+                  ? 'bg-primary text-white font-bold border-primary shadow-md' 
+                  : 'bg-white text-muted-foreground hover:bg-slate-50 hover:border-border'
               }`}
             >
               {cat}
@@ -144,10 +142,10 @@ function ProductsContent() {
         </div>
       </div>
 
-      <div className="space-y-6 pt-6 border-t">
+      <div className="space-y-6 pt-6 border-t border-slate-200">
         <div className="flex justify-between items-center">
           <h3 className="font-headline font-bold text-lg text-foreground">{t.catalog.priceRange}</h3>
-          <Badge variant="outline" className="rounded-lg bg-white border border-border shadow-sm text-xs px-2">
+          <Badge variant="outline" className="rounded-lg bg-white border border-slate-300 shadow-sm text-xs px-2 font-bold">
             ${priceRange[0]} - ${priceRange[1]}
           </Badge>
         </div>
@@ -186,6 +184,7 @@ function ProductsContent() {
             <h1 className="text-2xl font-headline font-bold tracking-tight text-foreground">{t.catalog.title}</h1>
             <p className="text-muted-foreground text-sm">
               {loading ? t.common.loading : t.catalog.results.replace('{count}', filteredAndSortedProducts.length.toString())}
+              {searchTerm && <span className="ml-2 italic opacity-80">| Buscando: "{searchTerm}"</span>}
             </p>
           </div>
 
@@ -193,9 +192,9 @@ function ProductsContent() {
             <div className="lg:hidden">
               <Sheet open={isMobileFilterOpen} onOpenChange={setIsMobileFilterOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="outline" className="rounded-xl flex items-center gap-2 bg-white border-none shadow-sm h-10 px-4">
+                  <Button variant="outline" className="rounded-xl flex items-center gap-2 bg-white border border-slate-200 shadow-md h-11 px-6 hover:bg-slate-50 transition-all">
                     <Filter className="h-4 w-4 text-primary" />
-                    <span>{t.catalog.filter}</span>
+                    <span className="font-bold">{t.catalog.filter}</span>
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-[280px] p-6 overflow-y-auto">
@@ -207,31 +206,21 @@ function ProductsContent() {
               </Sheet>
             </div>
 
-            <div className="relative flex-1 sm:flex-none sm:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input 
-                placeholder={t.catalog.search} 
-                className="pl-10 rounded-xl bg-white border-none shadow-sm"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="rounded-xl flex items-center gap-2 bg-white border-none shadow-sm h-10 px-4">
+                <Button variant="outline" className="rounded-xl flex items-center gap-2 bg-white border border-slate-200 shadow-md h-11 px-6 hover:bg-slate-50 transition-all">
                   <ArrowUpDown className="h-4 w-4 text-primary" />
-                  <span className="hidden sm:inline">{t.catalog.sortBy}</span>
+                  <span className="font-bold">{t.catalog.sortBy}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 rounded-xl shadow-xl border-none p-2">
-                <DropdownMenuLabel className="text-xs uppercase tracking-widest text-muted-foreground">Opciones de Orden</DropdownMenuLabel>
+              <DropdownMenuContent align="end" className="w-56 rounded-xl shadow-xl border border-slate-100 p-2">
+                <DropdownMenuLabel className="text-[10px] uppercase font-bold tracking-widest text-muted-foreground px-2 py-1.5">Opciones de Orden</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuRadioGroup value={sortBy} onValueChange={(val) => setSortBy(val as SortOption)}>
-                  <DropdownMenuRadioItem value="newest" className="rounded-lg">Más recientes</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="price-asc" className="rounded-lg">Precio: Menor a Mayor</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="price-desc" className="rounded-lg">Precio: Mayor a Menor</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="name-asc" className="rounded-lg">Nombre: A-Z</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="newest" className="rounded-lg py-2">Más recientes</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="price-asc" className="rounded-lg py-2">Precio: Menor a Mayor</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="price-desc" className="rounded-lg py-2">Precio: Mayor a Menor</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="name-asc" className="rounded-lg py-2">Nombre: A-Z</DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -268,7 +257,7 @@ function ProductsContent() {
                     No hay productos que coincidan con tus filtros actuales. Prueba ajustando el precio o la categoría.
                   </p>
                 </div>
-                <Button variant="outline" onClick={resetFilters} className="rounded-xl border-primary text-primary hover:bg-primary/5">
+                <Button variant="outline" onClick={resetFilters} className="rounded-xl border-primary text-primary hover:bg-primary/5 px-8">
                   {t.catalog.clearFilters}
                 </Button>
               </div>

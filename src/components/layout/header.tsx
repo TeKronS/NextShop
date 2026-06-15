@@ -87,7 +87,7 @@ export function Header() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <div className="bg-primary p-2 rounded-xl group-hover:rotate-12 transition-transform">
+          <div className="bg-primary p-2 rounded-xl group-hover:rotate-12 transition-transform shadow-sm">
             <LogoIcon className="h-6 w-6 text-white" />
           </div>
           <span className="text-2xl font-headline font-bold text-foreground tracking-tight hidden lg:block">
@@ -104,14 +104,14 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* Search Bar - Main Feature */}
+        {/* Search Bar - Main Feature with contrast improved */}
         <form onSubmit={handleSearchSubmit} className="flex-1 max-w-md relative hidden sm:block">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t.catalog.search} 
-            className="w-full pl-10 bg-slate-100/50 border-none focus-visible:ring-primary rounded-xl"
+            className="w-full pl-10 bg-slate-50 border border-slate-200 focus-visible:ring-primary rounded-xl shadow-sm transition-all focus:bg-white"
           />
         </form>
 
@@ -191,7 +191,7 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <Link href="/login">
-              <Button variant="ghost" size="icon" className="group rounded-full bg-slate-50 hover:bg-primary hover:text-white transition-all">
+              <Button variant="ghost" size="icon" className="group rounded-full bg-slate-50 hover:bg-primary hover:text-white transition-all border border-slate-200 shadow-sm">
                 <LogIn className="h-5 w-5 group-hover:scale-110" />
               </Button>
             </Link>
