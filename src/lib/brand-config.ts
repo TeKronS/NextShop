@@ -5,7 +5,7 @@
 export const BrandConfig = {
   name: "NextShop",
   fullName: "NextShop E-commerce S.L.",
-  description: "Premium tech and lifestyle products curated for the modern professional.",
+  description: "Productos tecnológicos y de estilo de vida premium seleccionados para el profesional moderno.",
   contact: {
     email: "hello@nextshop.com",
     phone: "+1 (555) 000-0000",

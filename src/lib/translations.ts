@@ -254,7 +254,7 @@ export const translations = {
       placeholderMessage: 'Type your message here...'
     },
     footer: {
-      desc: BrandConfig.description,
+      desc: "Premium tech and lifestyle products curated for the modern professional.",
       shop: 'Shop',
       company: 'Company',
       support: 'Support',
