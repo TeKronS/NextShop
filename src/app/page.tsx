@@ -84,13 +84,13 @@ export default function Home() {
               >
                 <CarouselContent>
                   {featuredProducts.map((product) => (
-                    <CarouselItem key={product.id} className="basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 p-2 sm:p-4">
+                    <CarouselItem key={product.id} className="basis-[85%] sm:basis-1/2 lg:basis-1/3 xl:basis-1/4 p-2 sm:p-4">
                       <ProductCard product={product} />
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="hidden md:flex -left-6 h-10 w-10 border-2 border-primary/20 text-primary hover:bg-primary hover:text-white transition-all shadow-md" />
-                <CarouselNext className="hidden md:flex -right-6 h-10 w-10 border-2 border-primary/20 text-primary hover:bg-primary hover:text-white transition-all shadow-md" />
+                <CarouselPrevious className="flex -left-4 sm:-left-6 h-10 w-10 border-2 border-primary/20 text-primary bg-white/80 backdrop-blur hover:bg-primary hover:text-white transition-all shadow-md" />
+                <CarouselNext className="flex -right-4 sm:-right-6 h-10 w-10 border-2 border-primary/20 text-primary bg-white/80 backdrop-blur hover:bg-primary hover:text-white transition-all shadow-md" />
               </Carousel>
             </div>
           ) : (
