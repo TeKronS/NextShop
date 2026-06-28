@@ -133,7 +133,7 @@ export function Header() {
                   <Search className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="top" className="h-20 flex items-center px-4 border-b">
+              <SheetContent side="top" className="h-20 flex items-center pl-4 pr-12 border-b">
                 <SheetHeader className="sr-only">
                   <SheetTitle>Búsqueda Móvil</SheetTitle>
                   <SheetDescription>Busca productos en el catálogo</SheetDescription>
