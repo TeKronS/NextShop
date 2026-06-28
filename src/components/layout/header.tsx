@@ -10,7 +10,7 @@ import { useCart } from '@/components/cart/cart-context';
 import { useLanguage } from '@/components/language/language-context';
 import { useAuth } from '@/components/auth/auth-context';
 import { Badge } from '@/components/ui/badge';
-import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { BrandConfig } from '@/lib/brand-config';
 import {
   DropdownMenu,
@@ -71,6 +71,9 @@ export function Header() {
                     <LogoIcon className="h-6 w-6 text-primary" />
                     {BrandConfig.name}
                   </SheetTitle>
+                  <SheetDescription className="sr-only">
+                    Navegación principal del sitio móvil
+                  </SheetDescription>
                 </SheetHeader>
                 <nav className="flex flex-col gap-4 mt-8">
                   <Link href="/" className="text-lg font-medium hover:text-primary transition-colors">{t.nav.home}</Link>
@@ -131,6 +134,10 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="top" className="h-20 flex items-center px-4 border-b">
+                <SheetHeader className="sr-only">
+                  <SheetTitle>Búsqueda Móvil</SheetTitle>
+                  <SheetDescription>Busca productos en el catálogo</SheetDescription>
+                </SheetHeader>
                 <form onSubmit={handleSearchSubmit} className="flex-1 relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input 
