@@ -48,8 +48,8 @@ export default function Home() {
       <Header />
       
       <main className="flex-1">
-        {/* Featured Products Section - Now at the very top */}
-        <section className="pt-8 pb-12 container mx-auto px-4">
+        {/* Featured Products Section - Espaciado reducido en móvil */}
+        <section className="pt-4 sm:pt-8 pb-12 container mx-auto px-4">
           <div className="flex flex-row justify-between items-center mb-6 border-b border-border/40 pb-4">
             <div className="flex items-center gap-3">
               <h2 className="text-xl md:text-2xl font-headline font-bold tracking-tight">
